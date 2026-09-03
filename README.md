@@ -9,6 +9,7 @@ Telegram-first backend for a horse rental and riding aggregator in Bishkek.
 - grammY Telegram bot
 - Prisma ORM 7 + PostgreSQL
 - Railway-ready healthcheck and start command
+- Next.js landing app in `apps/web`
 
 ## Local Setup
 
@@ -22,6 +23,17 @@ npm run dev
 ```
 
 The API listens on `http://localhost:3000`.
+
+## Web Landing
+
+```bash
+cd apps/web
+npm install
+npm run dev -- --port 3001
+npm run build
+```
+
+Set `NEXT_PUBLIC_SITE_URL` to the production landing domain before deployment.
 
 ## Environment
 
