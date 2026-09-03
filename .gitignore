@@ -8,5 +8,4 @@ public/assets/landing/source-pending/tmp/
 nimbalyst-local/
 apps/web/.next/
 apps/web/node_modules/
-apps/web/public/assets/landing/source-pending/
 apps/web/tsconfig.tsbuildinfo

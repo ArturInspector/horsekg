@@ -1,4 +1,4 @@
-import { copyFile, mkdir } from "node:fs/promises";
+import { access, copyFile, mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
 const root = join(process.cwd(), "../..");
@@ -20,7 +20,16 @@ const assets = [
 await mkdir(targetRoot, { recursive: true });
 
 for (const asset of assets) {
+  const source = join(sourceRoot, asset);
   const target = join(targetRoot, asset);
   await mkdir(dirname(target), { recursive: true });
-  await copyFile(join(sourceRoot, asset), target);
+
+  try {
+    await access(source);
+  } catch {
+    await access(target);
+    continue;
+  }
+
+  await copyFile(source, target);
 }
