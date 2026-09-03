@@ -9,157 +9,68 @@ import {
   Star,
   UsersRound
 } from "lucide-react";
-
-const botUrl = "https://t.me/horsekgbot?start=landing";
-
-const routes = [
-  {
-    title: "Чункурчак, прогулка 1 час",
-    area: "Чункурчакское ущелье",
-    price: "1 500 сом/чел",
-    duration: "60 минут",
-    level: "Для новичков",
-    image: "/assets/landing/source-pending/karabulak-tour-horse-2.jpg",
-    alt: "Всадники на горном маршруте рядом с Бишкеком"
-  },
-  {
-    title: "Чункурчак, горный маршрут",
-    area: "Горы рядом с Бишкеком",
-    price: "2 800 сом/чел",
-    duration: "120 минут",
-    level: "С инструктором",
-    image: "/assets/landing/source-pending/karabulak-tour-horse-3.jpg",
-    alt: "Лошади подготовлены к прогулке в горах"
-  },
-  {
-    title: "Аламедин для первого раза",
-    area: "Аламединское ущелье",
-    price: "2 200 сом/чел",
-    duration: "90 минут",
-    level: "Спокойный темп",
-    image: "/assets/landing/source-pending/instagram-hydepark-post-CoJvZkhsdeY.jpg",
-    alt: "Зимняя прогулка верхом на лошади"
-  }
-];
-
-const faq = [
-  {
-    question: "Можно ли без опыта?",
-    answer:
-      "Да, для первого раза лучше выбирать спокойный маршрут с инструктором. Лошадь подбирают под уровень и группу."
-  },
-  {
-    question: "Как подтверждается бронь?",
-    answer:
-      "Вы выбираете локацию, маршрут, время и оставляете телефон. Менеджер подтверждает наличие и отправляет детали встречи в Telegram."
-  },
-  {
-    question: "Где проходят прогулки?",
-    answer:
-      "В MVP доступны Чункурчак и Аламедин. Точную точку старта менеджер присылает после подтверждения."
-  },
-  {
-    question: "Можно ли с детьми?",
-    answer:
-      "Можно для подходящих маршрутов и только после подтверждения организатора. Возрастные ограничения нужно уточнять при бронировании."
-  }
-];
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "TouristTrip",
-  name: "Конные прогулки в Бишкеке",
-  description:
-    "Конные прогулки в Чункурчаке и Аламедине с бронированием через Telegram.",
-  touristType: ["Новички", "Пары", "Компании", "Туристы"],
-  areaServed: {
-    "@type": "City",
-    name: "Бишкек"
-  },
-  offers: {
-    "@type": "AggregateOffer",
-    priceCurrency: "KGS",
-    lowPrice: "1500",
-    highPrice: "2800",
-    availability: "https://schema.org/InStock"
-  }
-};
+import { jsonLdString, siteCopy, structuredData } from "../content/landing";
 
 export default function Home() {
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdString(structuredData) }}
       />
       <main>
         <section className="hero" aria-labelledby="hero-title">
           <div className="heroMedia" aria-hidden="true">
-            <img
-              src="/assets/landing/source-pending/karabulak-tour-horse-2.jpg"
-              alt=""
-            />
+            <img src={siteCopy.hero.image} alt="" />
           </div>
           <div className="heroOverlay" />
           <header className="siteHeader">
-            <a className="brand" href="#top" aria-label="HorseSharing Бишкек">
-              HorseSharing
+            <a className="brand" href="#top" aria-label={siteCopy.brandAriaLabel}>
+              {siteCopy.brand}
             </a>
-            <nav aria-label="Главная навигация">
-              <a href="#routes">Маршруты</a>
-              <a href="#safety">Безопасность</a>
-              <a href="#faq">FAQ</a>
+            <nav aria-label={siteCopy.navigationLabel}>
+              {siteCopy.nav.map((item) => (
+                <a href={item.href} key={item.href}>
+                  {item.label}
+                </a>
+              ))}
             </nav>
           </header>
           <div className="heroContent">
-            <p className="eyebrow">Бишкек • Чункурчак • Аламедин</p>
-            <h1 id="hero-title">Конные прогулки в Бишкеке</h1>
-            <p className="heroText">
-              Выберите локацию, маршрут и свободное время. Бронь подтверждает
-              менеджер в Telegram.
-            </p>
+            <p className="eyebrow">{siteCopy.hero.eyebrow}</p>
+            <h1 id="hero-title">{siteCopy.hero.title}</h1>
+            <p className="heroText">{siteCopy.hero.text}</p>
+            <p className="heroSeoText">{siteCopy.hero.seoText}</p>
             <div className="heroActions">
-              <a className="button primary" href={botUrl}>
-                Записаться в Telegram
+              <a className="button primary" href={siteCopy.botUrl}>
+                {siteCopy.hero.primaryCta}
                 <ArrowRight size={18} strokeWidth={2.3} />
               </a>
               <a className="button secondary" href="#routes">
-                Посмотреть маршруты
+                {siteCopy.hero.secondaryCta}
               </a>
             </div>
-            <dl className="heroStats" aria-label="Коротко о прогулках">
-              <div>
-                <dt>от 1 500 сом</dt>
-                <dd>за человека</dd>
-              </div>
-              <div>
-                <dt>60-120 минут</dt>
-                <dd>основные маршруты</dd>
-              </div>
-              <div>
-                <dt>до 6 человек</dt>
-                <dd>в группе</dd>
-              </div>
+            <dl className="heroStats" aria-label={siteCopy.hero.statsLabel}>
+              {siteCopy.hero.stats.map((item) => (
+                <div key={item.value}>
+                  <dt>{item.value}</dt>
+                  <dd>{item.label}</dd>
+                </div>
+              ))}
             </dl>
           </div>
         </section>
 
-        <section className="searchBand" aria-label="Быстрый выбор">
+        <section className="searchBand" id="booking" aria-label={siteCopy.quickPicker.label}>
           <div className="container searchGrid">
-            <div>
-              <span className="fieldLabel">Дата</span>
-              <strong>Ближайшие 7 дней</strong>
-            </div>
-            <div>
-              <span className="fieldLabel">Локация</span>
-              <strong>Чункурчак или Аламедин</strong>
-            </div>
-            <div>
-              <span className="fieldLabel">Участники</span>
-              <strong>1-6 человек</strong>
-            </div>
-            <a className="button dark" href={botUrl}>
-              Проверить время
+            {siteCopy.quickPicker.fields.map((field) => (
+              <div key={field.label}>
+                <span className="fieldLabel">{field.label}</span>
+                <strong>{field.value}</strong>
+              </div>
+            ))}
+            <a className="button dark" href={siteCopy.botUrl}>
+              {siteCopy.quickPicker.cta}
               <CalendarDays size={18} />
             </a>
           </div>
@@ -167,15 +78,12 @@ export default function Home() {
 
         <section className="section" id="routes" aria-labelledby="routes-title">
           <div className="container sectionHeader">
-            <p className="eyebrow">Маршруты</p>
-            <h2 id="routes-title">Выберите прогулку по времени и уровню</h2>
-            <p>
-              Для MVP доступны демо-слоты на 10:00, 13:00 и 16:00. Перед выездом
-              менеджер подтверждает наличие лошадей и точку встречи.
-            </p>
+            <p className="eyebrow">{siteCopy.routesSection.eyebrow}</p>
+            <h2 id="routes-title">{siteCopy.routesSection.title}</h2>
+            <p>{siteCopy.routesSection.text}</p>
           </div>
           <div className="container routeGrid">
-            {routes.map((route) => (
+            {siteCopy.routes.map((route) => (
               <article className="routeCard" key={route.title}>
                 <img src={route.image} alt={route.alt} />
                 <div className="routeBody">
@@ -190,13 +98,17 @@ export default function Home() {
                     </span>
                   </div>
                   <h3>{route.title}</h3>
+                  <p>{route.description}</p>
                   <div className="routeFooter">
                     <div>
                       <strong>{route.price}</strong>
                       <span>{route.level}</span>
                     </div>
-                    <a href={botUrl} aria-label={`Выбрать ${route.title}`}>
-                      Выбрать
+                    <a
+                      href={siteCopy.botUrl}
+                      aria-label={`${siteCopy.routesSection.choosePrefix} ${route.title}`}
+                    >
+                      {siteCopy.routesSection.choosePrefix}
                     </a>
                   </div>
                 </div>
@@ -208,33 +120,24 @@ export default function Home() {
         <section className="section split" id="safety" aria-labelledby="safety-title">
           <div className="container splitGrid">
             <div>
-              <p className="eyebrow">Перед бронью</p>
-              <h2 id="safety-title">Новичкам объясняем условия до выезда</h2>
-              <p>
-                Лендинг не обещает абсолютную безопасность. Он показывает, какие
-                шаги помогают снизить риск: инструктор, подбор лошади, спокойный
-                темп и понятные ограничения.
-              </p>
+              <p className="eyebrow">{siteCopy.safety.eyebrow}</p>
+              <h2 id="safety-title">{siteCopy.safety.title}</h2>
+              <p>{siteCopy.safety.text}</p>
               <ul className="checkList">
-                <li>
-                  <ShieldCheck size={20} />
-                  Маршруты для первого раза проходят в спокойном темпе.
-                </li>
-                <li>
-                  <UsersRound size={20} />
-                  Для группы менеджер подтверждает свободные места.
-                </li>
-                <li>
-                  <MessageCircle size={20} />
-                  Детали встречи и переносы идут через Telegram.
-                </li>
+                {siteCopy.safety.items.map((item, index) => {
+                  const Icon = [ShieldCheck, UsersRound, MessageCircle][index];
+
+                  return (
+                    <li key={item}>
+                      <Icon size={20} />
+                      {item}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div className="safetyImage">
-              <img
-                src="/assets/landing/source-pending/instagram-chabandes-post-CZw0ktutO3s.jpg"
-                alt="Инструктор держит лошадь перед прогулкой"
-              />
+              <img src={siteCopy.safety.image} alt={siteCopy.safety.imageAlt} />
             </div>
           </div>
         </section>
@@ -242,26 +145,18 @@ export default function Home() {
         <section className="section locations" aria-labelledby="locations-title">
           <div className="container locationGrid">
             <div>
-              <p className="eyebrow">Карта</p>
-              <h2 id="locations-title">Локации рядом с Бишкеком</h2>
-              <p>
-                В Telegram бот отправляет точку на карте и ссылку на 2GIS.
-                Полноценную карту с фильтрами логично вынести в Mini App после
-                запуска первого спроса.
-              </p>
+              <p className="eyebrow">{siteCopy.locations.eyebrow}</p>
+              <h2 id="locations-title">{siteCopy.locations.title}</h2>
+              <p>{siteCopy.locations.text}</p>
               <div className="locationLinks">
-                <a href="https://2gis.kg/bishkek/search/%D0%A7%D1%83%D0%BD%D0%BA%D1%83%D1%80%D1%87%D0%B0%D0%BA%D1%81%D0%BA%D0%BE%D0%B5%20%D1%83%D1%89%D0%B5%D0%BB%D1%8C%D0%B5">
-                  Чункурчак в 2GIS
-                </a>
-                <a href="https://2gis.kg/bishkek/search/%D0%90%D0%BB%D0%B0%D0%BC%D0%B5%D0%B4%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%B5%20%D1%83%D1%89%D0%B5%D0%BB%D1%8C%D0%B5">
-                  Аламедин в 2GIS
-                </a>
+                {siteCopy.locations.links.map((link) => (
+                  <a href={link.href} key={link.href}>
+                    {link.label}
+                  </a>
+                ))}
               </div>
             </div>
-            <img
-              src="/assets/landing/source-pending/sxodim-horse-club-kg-gallery-1.jpg"
-              alt="Всадники на вечерней прогулке"
-            />
+            <img src={siteCopy.locations.image} alt={siteCopy.locations.imageAlt} />
           </div>
         </section>
 
@@ -269,15 +164,11 @@ export default function Home() {
           <div className="container proofGrid">
             <div>
               <Star size={21} />
-              <h2 id="proof-title">Что важно показать перед оплатой</h2>
+              <h2 id="proof-title">{siteCopy.proof.title}</h2>
             </div>
-            <p>
-              Реальные фото, источник отзывов, точка встречи, цена за человека,
-              длительность, условия отмены и честный статус брони. Рейтинг не
-              ставим, пока нет подтвержденных отзывов.
-            </p>
-            <a className="button primary compact" href={botUrl}>
-              Оставить бронь
+            <p>{siteCopy.proof.text}</p>
+            <a className="button primary compact" href={siteCopy.botUrl}>
+              {siteCopy.proof.cta}
               <ArrowRight size={18} />
             </a>
           </div>
@@ -285,10 +176,10 @@ export default function Home() {
 
         <section className="section faq" id="faq" aria-labelledby="faq-title">
           <div className="container">
-            <p className="eyebrow">FAQ</p>
-            <h2 id="faq-title">Частые вопросы</h2>
+            <p className="eyebrow">{siteCopy.faq.eyebrow}</p>
+            <h2 id="faq-title">{siteCopy.faq.title}</h2>
             <div className="faqGrid">
-              {faq.map((item) => (
+              {siteCopy.faq.items.map((item) => (
                 <article key={item.question}>
                   <CheckCircle2 size={20} />
                   <h3>{item.question}</h3>

@@ -1,28 +1,25 @@
 import type { Metadata } from "next";
+import { siteCopy } from "../content/landing";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://horsekg.kg";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Конные прогулки в Бишкеке | HorseSharing",
-  description:
-    "Выберите локацию, маршрут и свободное время для конной прогулки рядом с Бишкеком. Бронь подтверждает менеджер в Telegram.",
+  metadataBase: new URL(siteCopy.siteUrl),
+  title: siteCopy.metadata.title,
+  description: siteCopy.metadata.description,
   alternates: {
     canonical: "/"
   },
   openGraph: {
-    title: "Конные прогулки в Бишкеке",
-    description:
-      "Маршруты в Чункурчаке и Аламедине, цены от 1 500 сом, бронирование через Telegram.",
+    title: siteCopy.metadata.openGraphTitle,
+    description: siteCopy.metadata.openGraphDescription,
     url: "/",
-    siteName: "HorseSharing Бишкек",
+    siteName: siteCopy.metadata.siteName,
     images: [
       {
-        url: "/assets/landing/source-pending/karabulak-tour-horse-2.jpg",
+        url: siteCopy.hero.image,
         width: 1080,
         height: 808,
-        alt: "Конная прогулка в горах рядом с Бишкеком"
+        alt: siteCopy.routes[0].alt
       }
     ],
     locale: "ru_KG",
@@ -30,10 +27,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Конные прогулки в Бишкеке",
-    description:
-      "Выберите локацию, маршрут и время. Бронь подтверждает менеджер в Telegram.",
-    images: ["/assets/landing/source-pending/karabulak-tour-horse-2.jpg"]
+    title: siteCopy.metadata.openGraphTitle,
+    description: siteCopy.metadata.openGraphDescription,
+    images: [siteCopy.hero.image]
   }
 };
 

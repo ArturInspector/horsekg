@@ -154,6 +154,14 @@ h3 {
   line-height: 1.45;
 }
 
+.heroSeoText {
+  max-width: 560px;
+  margin: -4px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
 .heroActions {
   display: flex;
   flex-wrap: wrap;
@@ -329,6 +337,13 @@ h3 {
 .routeFooter span {
   color: var(--muted);
   font-size: 14px;
+}
+
+.routeBody p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .routeFooter a,
