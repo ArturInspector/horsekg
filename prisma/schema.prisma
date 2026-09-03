@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum HorseStatus {
+  AVAILABLE
+  RESTING
+  UNAVAILABLE
+}
+
+enum SkillLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  PENDING_CONFIRMATION
+  CONFIRMED
+  CANCELLED
+  EXPIRED
+}
+
+enum PaymentProvider {
+  TELEGRAM
+  MANUAL
+  PAYMENT_LINK
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+model Location {
+  id          String             @id @default(cuid())
+  slug        String             @unique
+  title       String
+  description String
+  address     String?
+  latitude    Float?
+  longitude   Float?
+  mapUrl      String?
+  isActive    Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  horses      Horse[]
+  packages    RidePackage[]
+  slots       AvailabilitySlot[]
+  bookings    Booking[]
+
+  @@index([isActive])
+}
+
+model Horse {
+  id          String             @id @default(cuid())
+  slug        String             @unique
+  name        String
+  age         Int?
+  color       String?
+  description String?
+  photoUrl    String?
+  status      HorseStatus        @default(AVAILABLE)
+  skillLevel  SkillLevel         @default(BEGINNER)
+  locationId  String?
+  location    Location?          @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  slots       AvailabilitySlot[]
+  bookings    Booking[]
+
+  @@index([locationId, status])
+}
+
+model RidePackage {
+  id              String             @id @default(cuid())
+  slug            String             @unique
+  title           String
+  description     String
+  durationMinutes Int
+  priceKgs        Int
+  maxParticipants Int                @default(6)
+  isActive        Boolean            @default(true)
+  locationId      String?
+  location        Location?          @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  slots           AvailabilitySlot[]
+  bookings        Booking[]
+
+  @@index([locationId, isActive])
+}
+
+model AvailabilitySlot {
+  id            String       @id @default(cuid())
+  startsAt      DateTime
+  endsAt        DateTime
+  capacity      Int
+  seatsBooked   Int          @default(0)
+  locationId    String
+  location      Location     @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  ridePackageId String
+  ridePackage   RidePackage  @relation(fields: [ridePackageId], references: [id], onDelete: Cascade)
+  horseId       String?
+  horse         Horse?       @relation(fields: [horseId], references: [id], onDelete: SetNull)
+  bookings      Booking[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([locationId, startsAt])
+  @@index([ridePackageId, startsAt])
+  @@index([horseId, startsAt])
+}
+
+model Customer {
+  id               String    @id @default(cuid())
+  telegramId       BigInt?   @unique
+  telegramUsername String?
+  firstName        String?
+  lastName         String?
+  phone            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  bookings         Booking[]
+}
+
+model Booking {
+  id             String           @id @default(cuid())
+  publicCode     String           @unique
+  status         BookingStatus    @default(PENDING_CONFIRMATION)
+  participants   Int
+  contactName    String?
+  contactPhone   String
+  notes          String?
+  totalAmountKgs Int
+  paidAmountKgs  Int              @default(0)
+  customerId     String
+  customer       Customer         @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  locationId     String
+  location       Location         @relation(fields: [locationId], references: [id], onDelete: Restrict)
+  ridePackageId  String
+  ridePackage    RidePackage      @relation(fields: [ridePackageId], references: [id], onDelete: Restrict)
+  slotId         String
+  slot           AvailabilitySlot @relation(fields: [slotId], references: [id], onDelete: Restrict)
+  horseId        String?
+  horse          Horse?           @relation(fields: [horseId], references: [id], onDelete: SetNull)
+  payment        Payment?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([customerId, createdAt])
+  @@index([status, createdAt])
+  @@index([slotId])
+}
+
+model Payment {
+  id                String          @id @default(cuid())
+  bookingId         String          @unique
+  booking           Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  provider          PaymentProvider
+  status            PaymentStatus   @default(PENDING)
+  amountKgs         Int
+  currency          String          @default("KGS")
+  providerPayload   String?         @unique
+  telegramChargeId  String?
+  providerChargeId  String?
+  rawProviderData   Json?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([provider, status])
+}
+
+model TelegramSession {
+  key       String   @id
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
