@@ -77,6 +77,12 @@ CTA:
 Посмотреть маршруты
 ```
 
+Primary Telegram link:
+
+```text
+https://t.me/horsekgbot?start=seo_home
+```
+
 Stats:
 
 ```text
@@ -105,6 +111,12 @@ Stats:
 Проверить время
 ```
 
+Telegram link:
+
+```text
+https://t.me/horsekgbot?start=seo_booking
+```
+
 ## Routes
 
 Section:
@@ -125,6 +137,12 @@ Route 1:
 Для новичков
 Короткий маршрут с инструктором недалеко от Бишкека. Подходит для первого знакомства с верховой ездой и спокойной прогулки в компании.
 Выбрать
+```
+
+Route CTA Telegram link:
+
+```text
+https://t.me/horsekgbot?start=seo_routes
 ```
 
 Route 2:
@@ -180,6 +198,12 @@ Route 3:
 Фото маршрутов и лошадей
 Перед записью можно запросить актуальные фото лошадей, маршрута и страницы организатора в Instagram или 2GIS. Рейтинг и отзывы добавим на сайт только после проверки источников.
 Спросить в Telegram
+```
+
+Telegram link:
+
+```text
+https://t.me/horsekgbot?start=seo_proof
 ```
 
 ## FAQ

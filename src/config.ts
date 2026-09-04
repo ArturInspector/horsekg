@@ -51,7 +51,8 @@ const envSchema = z.object({
   APP_URL: optionalUrl,
   PAYMENTS_PROVIDER_TOKEN: optionalString,
   MANAGER_CHAT_ID: optionalString,
-  BOOKING_HOLD_MINUTES: optionalNumber(30)
+  BOOKING_HOLD_MINUTES: optionalNumber(30),
+  ANALYTICS_ADMIN_TOKEN: optionalString
 });
 
 const env = envSchema.parse(process.env);
@@ -72,7 +73,8 @@ export const config = {
   appUrl: env.APP_URL?.replace(/\/$/, ""),
   paymentsProviderToken: env.PAYMENTS_PROVIDER_TOKEN,
   managerChatId: env.MANAGER_CHAT_ID,
-  bookingHoldMinutes: env.BOOKING_HOLD_MINUTES
+  bookingHoldMinutes: env.BOOKING_HOLD_MINUTES,
+  analyticsAdminToken: env.ANALYTICS_ADMIN_TOKEN
 } as const;
 
 export type AppConfig = typeof config;

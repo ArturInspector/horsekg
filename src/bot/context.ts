@@ -12,11 +12,13 @@ export type BookingDraft = {
 
 export type BotSession = {
   draft?: BookingDraft;
+  source?: string;
 };
 
 export type BotContext = Context & SessionFlavor<BotSession>;
 
 export const botSessionSchema = z.object({
+  source: z.string().optional(),
   draft: z
     .object({
       locationId: z.string().optional(),

@@ -34,6 +34,8 @@ npm run build
 ```
 
 Set `NEXT_PUBLIC_SITE_URL` to the production landing domain before deployment.
+Set `NEXT_PUBLIC_API_URL` to the production API URL so landing analytics events
+are written to the backend.
 
 ## Environment
 
@@ -46,6 +48,7 @@ Create real values from `.env.example`.
 - `TELEGRAM_WEBHOOK_SECRET`: secret header value for Telegram webhook requests.
 - `PAYMENTS_PROVIDER_TOKEN`: provider token from BotFather Payments.
 - `MANAGER_CHAT_ID`: chat ID for new booking notifications.
+- `ANALYTICS_ADMIN_TOKEN`: optional token for `GET /api/analytics/summary`.
 
 ## API
 
@@ -55,6 +58,8 @@ Create real values from `.env.example`.
 - `GET /api/ride-packages?locationId=...`
 - `GET /api/availability?locationId=...&packageId=...`
 - `POST /api/bookings`
+- `POST /api/analytics/events`
+- `GET /api/analytics/summary`
 
 ## Telegram Commands
 

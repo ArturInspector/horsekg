@@ -41,3 +41,29 @@
    - `/prices`
 4. Добавить реальные страницы организаторов: Instagram, 2GIS, телефон, фото, условия отмены.
 5. После первых броней добавить подтвержденные отзывы без накрутки и без schema markup, если источник не проверен.
+
+## Tracking
+
+Deep links в Telegram:
+
+- `https://t.me/horsekgbot?start=seo_home` - главный CTA в hero.
+- `https://t.me/horsekgbot?start=seo_booking` - быстрый выбор времени.
+- `https://t.me/horsekgbot?start=seo_routes` - CTA в карточках маршрутов.
+- `https://t.me/horsekgbot?start=seo_proof` - CTA в блоке фото/доверия.
+
+События:
+
+- `PAGE_VIEW`: загрузка лендинга, источник по `utm_source` или `seo_home`.
+- `TELEGRAM_CLICK`: клик по CTA в Telegram.
+- `BOT_START`: пользователь открыл бота через `/start <source>`.
+- `BOOKING_CREATED`: пользователь дошел до созданной брони.
+
+MVP-отчет: `GET /api/analytics/summary?from=YYYY-MM-DD&to=YYYY-MM-DD`.
+Если задан `ANALYTICS_ADMIN_TOKEN`, передавать `Authorization: Bearer <token>`.
+
+Для оценки SEO нужны:
+
+- Google Search Console: показы, клики, CTR, позиции по запросам.
+- Яндекс Вебмастер: если целимся в русскоязычный поиск.
+- Wordstat/Serpstat/Ahrefs: оценка спроса и конкурентов до запуска.
+- Собственная воронка выше: конверсия визит -> Telegram click -> bot start -> бронь.

@@ -14,3 +14,4 @@ The app reads source photos from `../../public/assets/landing/source-pending` du
 ## Environment
 
 - `NEXT_PUBLIC_SITE_URL`: canonical public URL for metadata, sitemap and robots.
+- `NEXT_PUBLIC_API_URL`: public API URL used by landing analytics.

@@ -2,7 +2,12 @@ const assetPath = "/assets/landing/source-pending";
 
 export const siteCopy = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://horsekg.kg",
-  botUrl: "https://t.me/horsekgbot?start=landing",
+  botUrls: {
+    home: "https://t.me/horsekgbot?start=seo_home",
+    booking: "https://t.me/horsekgbot?start=seo_booking",
+    routes: "https://t.me/horsekgbot?start=seo_routes",
+    proof: "https://t.me/horsekgbot?start=seo_proof"
+  },
   brand: "HorseSharing",
   navigationLabel: "Главная навигация",
   brandAriaLabel: "HorseSharing Бишкек",
@@ -26,6 +31,7 @@ export const siteCopy = {
     text: "Маршруты рядом с городом для первого раза, пары или небольшой компании. Выберите направление и оставьте заявку в Telegram.",
     seoText:
       "Horse riding in Bishkek with guided routes in Chon-Kurchak and Alamedin.",
+    primarySource: "seo_home",
     primaryCta: "Записаться в Telegram",
     secondaryCta: "Посмотреть маршруты",
     statsLabel: "Коротко о прогулках",
@@ -38,6 +44,7 @@ export const siteCopy = {
   },
   quickPicker: {
     label: "Быстрый выбор",
+    source: "seo_booking",
     fields: [
       { label: "Когда", value: "Сегодня, завтра или выходные" },
       { label: "Локация", value: "Чункурчак или Аламедин" },
@@ -47,6 +54,7 @@ export const siteCopy = {
   },
   routesSection: {
     eyebrow: "Маршруты",
+    source: "seo_routes",
     title: "Прогулка на лошадях рядом с Бишкеком",
     text: "Сравните направления по длительности, цене и уровню. Свободное время, лошадей и инструктора подтверждает менеджер после заявки.",
     choosePrefix: "Выбрать"
@@ -54,6 +62,7 @@ export const siteCopy = {
   routes: [
     {
       title: "Чункурчак, прогулка 1 час",
+      analyticsTarget: "route_chunkurchak_1h",
       area: "Чункурчакское ущелье",
       price: "1 500 сом/чел",
       duration: "60 минут",
@@ -65,6 +74,7 @@ export const siteCopy = {
     },
     {
       title: "Чункурчак, горный маршрут",
+      analyticsTarget: "route_chunkurchak_2h",
       area: "Горы рядом с Бишкеком",
       price: "2 800 сом/чел",
       duration: "120 минут",
@@ -76,6 +86,7 @@ export const siteCopy = {
     },
     {
       title: "Аламедин для первого раза",
+      analyticsTarget: "route_alamedin_first_ride",
       area: "Аламединское ущелье",
       price: "2 200 сом/чел",
       duration: "90 минут",
@@ -116,6 +127,7 @@ export const siteCopy = {
     ]
   },
   proof: {
+    source: "seo_proof",
     title: "Фото маршрутов и лошадей",
     text: "Перед записью можно запросить актуальные фото лошадей, маршрута и страницы организатора в Instagram или 2GIS. Рейтинг и отзывы добавим на сайт только после проверки источников.",
     cta: "Спросить в Telegram"

@@ -41,6 +41,13 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum AnalyticsEventType {
+  PAGE_VIEW
+  TELEGRAM_CLICK
+  BOT_START
+  BOOKING_CREATED
+}
+
 model Location {
   id          String             @id @default(cuid())
   slug        String             @unique
@@ -185,4 +192,23 @@ model TelegramSession {
   data      Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id             String             @id @default(cuid())
+  type           AnalyticsEventType
+  source         String?
+  pagePath       String?
+  target         String?
+  sessionId      String?
+  telegramUserId BigInt?
+  userAgent      String?
+  referrer       String?
+  metadata       Json?
+  createdAt      DateTime           @default(now())
+
+  @@index([type, createdAt])
+  @@index([source, createdAt])
+  @@index([sessionId, createdAt])
+  @@index([telegramUserId, createdAt])
 }

@@ -10,10 +10,12 @@ import {
   UsersRound
 } from "lucide-react";
 import { jsonLdString, siteCopy, structuredData } from "../content/landing";
+import { AnalyticsTracker } from "./analytics-tracker";
 
 export default function Home() {
   return (
     <>
+      <AnalyticsTracker />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdString(structuredData) }}
@@ -42,7 +44,12 @@ export default function Home() {
             <p className="heroText">{siteCopy.hero.text}</p>
             <p className="heroSeoText">{siteCopy.hero.seoText}</p>
             <div className="heroActions">
-              <a className="button primary" href={siteCopy.botUrl}>
+              <a
+                className="button primary"
+                href={siteCopy.botUrls.home}
+                data-analytics-source={siteCopy.hero.primarySource}
+                data-analytics-target="hero_primary"
+              >
                 {siteCopy.hero.primaryCta}
                 <ArrowRight size={18} strokeWidth={2.3} />
               </a>
@@ -69,7 +76,12 @@ export default function Home() {
                 <strong>{field.value}</strong>
               </div>
             ))}
-            <a className="button dark" href={siteCopy.botUrl}>
+            <a
+              className="button dark"
+              href={siteCopy.botUrls.booking}
+              data-analytics-source={siteCopy.quickPicker.source}
+              data-analytics-target="quick_booking"
+            >
               {siteCopy.quickPicker.cta}
               <CalendarDays size={18} />
             </a>
@@ -105,8 +117,10 @@ export default function Home() {
                       <span>{route.level}</span>
                     </div>
                     <a
-                      href={siteCopy.botUrl}
+                      href={siteCopy.botUrls.routes}
                       aria-label={`${siteCopy.routesSection.choosePrefix} ${route.title}`}
+                      data-analytics-source={siteCopy.routesSection.source}
+                      data-analytics-target={route.analyticsTarget}
                     >
                       {siteCopy.routesSection.choosePrefix}
                     </a>
@@ -167,7 +181,12 @@ export default function Home() {
               <h2 id="proof-title">{siteCopy.proof.title}</h2>
             </div>
             <p>{siteCopy.proof.text}</p>
-            <a className="button primary compact" href={siteCopy.botUrl}>
+            <a
+              className="button primary compact"
+              href={siteCopy.botUrls.proof}
+              data-analytics-source={siteCopy.proof.source}
+              data-analytics-target="proof_cta"
+            >
               {siteCopy.proof.cta}
               <ArrowRight size={18} />
             </a>

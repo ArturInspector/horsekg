@@ -6,6 +6,7 @@ import { z } from "zod";
 import type { AppConfig } from "../config.js";
 import type { BotContext } from "../bot/context.js";
 import type { DbClient } from "../database.js";
+import { AnalyticsService } from "../services/analytics.js";
 import { BookingService } from "../services/bookings.js";
 import { CatalogService } from "../services/catalog.js";
 import { DomainError } from "../services/errors.js";
@@ -47,10 +48,36 @@ const createBookingSchema = z.object({
   paymentExpected: z.boolean().optional()
 });
 
+const analyticsEventSchema = z.object({
+  type: z.enum(["PAGE_VIEW", "TELEGRAM_CLICK"]),
+  source: z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/).optional(),
+  pagePath: z.string().min(1).max(300).optional(),
+  target: z.string().min(1).max(120).optional(),
+  sessionId: z.string().min(1).max(120).optional(),
+  referrer: z.string().max(500).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional()
+});
+
+const analyticsSummaryQuerySchema = z.object({
+  from: z.string().optional(),
+  to: z.string().optional()
+});
+
+function defaultSummaryFrom() {
+  const date = new Date();
+  date.setDate(date.getDate() - 30);
+  return date;
+}
+
+function headerString(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 export async function buildServer({ bot, config, db }: BuildServerDeps) {
   const app = Fastify({
     logger: true
   });
+  const analytics = new AnalyticsService(db);
   const catalog = new CatalogService(db);
   const bookings = new BookingService(db);
 
@@ -116,6 +143,41 @@ export async function buildServer({ bot, config, db }: BuildServerDeps) {
     const booking = await bookings.createBooking(input);
     reply.status(201);
     return booking;
+  });
+
+  app.post("/api/analytics/events", async (request, reply) => {
+    const input = analyticsEventSchema.parse(request.body);
+
+    await analytics.track({
+      ...input,
+      userAgent: headerString(request.headers["user-agent"])
+    });
+
+    reply.status(204).send();
+  });
+
+  app.get("/api/analytics/summary", async (request, reply) => {
+    if (config.analyticsAdminToken) {
+      const authHeader = request.headers.authorization;
+      const headerToken = headerString(request.headers["x-analytics-token"]);
+      const bearerToken = authHeader?.startsWith("Bearer ")
+        ? authHeader.slice("Bearer ".length)
+        : undefined;
+
+      if (
+        bearerToken !== config.analyticsAdminToken &&
+        headerToken !== config.analyticsAdminToken
+      ) {
+        reply.status(401).send({ error: "UNAUTHORIZED" });
+        return;
+      }
+    }
+
+    const query = analyticsSummaryQuerySchema.parse(request.query);
+    const from = parseDate(query.from) ?? defaultSummaryFrom();
+    const to = parseDate(query.to) ?? new Date();
+
+    return analytics.summary({ from, to });
   });
 
   if (bot && config.telegramBotMode === "webhook") {

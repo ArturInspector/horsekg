@@ -1,6 +1,7 @@
 import { Bot, InlineKeyboard, Keyboard, session } from "grammy";
 import type { AppConfig } from "../config.js";
 import type { DbClient } from "../database.js";
+import { AnalyticsService } from "../services/analytics.js";
 import { BookingService } from "../services/bookings.js";
 import { CatalogService } from "../services/catalog.js";
 import { DomainError } from "../services/errors.js";
@@ -66,6 +67,26 @@ function normalizePhone(value: string) {
   return normalized.length >= 7 ? normalized : null;
 }
 
+function normalizeSource(value: string | undefined) {
+  const source = value?.trim();
+  return source && /^[a-zA-Z0-9_-]{1,80}$/.test(source) ? source : undefined;
+}
+
+function startPayload(ctx: BotContext) {
+  const message = ctx.message;
+
+  if (!message || !("text" in message)) {
+    return undefined;
+  }
+
+  if (typeof message.text !== "string") {
+    return undefined;
+  }
+
+  const [, payload] = message.text.trim().split(/\s+/, 2);
+  return normalizeSource(payload);
+}
+
 function hasCoordinates<T extends { latitude: number | null; longitude: number | null }>(
   location: T
 ): location is T & { latitude: number; longitude: number } {
@@ -119,6 +140,7 @@ export function createBot({ config, db }: CreateBotDeps) {
   }
 
   const bot = new Bot<BotContext>(config.telegramBotToken);
+  const analytics = new AnalyticsService(db);
   const catalog = new CatalogService(db);
   const bookings = new BookingService(db);
   const payments = new PaymentService(db);
@@ -141,6 +163,30 @@ export function createBot({ config, db }: CreateBotDeps) {
     console.error("Telegram bot error", error.error);
   });
 
+  function trackBotStart(ctx: BotContext) {
+    const source = startPayload(ctx);
+
+    if (source) {
+      ctx.session.source = source;
+    }
+
+    analytics
+      .track({
+        type: "BOT_START",
+        source: ctx.session.source,
+        target: "telegram_bot",
+        telegramUserId: ctx.from?.id,
+        metadata: {
+          username: ctx.from?.username,
+          firstName: ctx.from?.first_name,
+          lastName: ctx.from?.last_name
+        }
+      })
+      .catch((error: unknown) => {
+        console.error("Failed to track bot start", error);
+      });
+  }
+
   async function showHome(ctx: BotContext) {
     await ctx.reply(
       [
@@ -150,6 +196,11 @@ export function createBot({ config, db }: CreateBotDeps) {
       ].join("\n"),
       { reply_markup: mainKeyboard() }
     );
+  }
+
+  async function handleStart(ctx: BotContext) {
+    trackBotStart(ctx);
+    await showHome(ctx);
   }
 
   async function showLocations(ctx: BotContext) {
@@ -401,6 +452,24 @@ export function createBot({ config, db }: CreateBotDeps) {
         paymentExpected: Boolean(config.paymentsProviderToken)
       });
 
+      analytics
+        .track({
+          type: "BOOKING_CREATED",
+          source: ctx.session.source,
+          target: "telegram_bot",
+          telegramUserId: ctx.from?.id,
+          metadata: {
+            publicCode: booking.publicCode,
+            participants: booking.participants,
+            totalAmountKgs: booking.totalAmountKgs,
+            location: booking.location.title,
+            ridePackage: booking.ridePackage.title
+          }
+        })
+        .catch((error: unknown) => {
+          console.error("Failed to track booking", error);
+        });
+
       ctx.session.draft = undefined;
 
       await ctx.reply(bookingSummary(booking), {
@@ -445,7 +514,7 @@ export function createBot({ config, db }: CreateBotDeps) {
     }
   }
 
-  bot.command("start", showHome);
+  bot.command("start", handleStart);
   bot.command("book", showLocations);
   bot.command("horses", (ctx) => showHorses(ctx));
   bot.command("locations", showLocationInfo);
