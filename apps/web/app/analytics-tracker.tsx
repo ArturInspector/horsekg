@@ -29,20 +29,12 @@ function sourceFromUrl() {
 }
 
 function sendEvent(event: AnalyticsEvent) {
-  const body = JSON.stringify(event);
-
-  if (navigator.sendBeacon) {
-    const blob = new Blob([body], { type: "application/json" });
-    navigator.sendBeacon(analyticsEndpoint(), blob);
-    return;
-  }
-
   fetch(analyticsEndpoint(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body,
+    body: JSON.stringify(event),
     keepalive: true
   }).catch(() => undefined);
 }
