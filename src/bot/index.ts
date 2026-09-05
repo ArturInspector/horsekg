@@ -1,7 +1,7 @@
 import { Bot, InlineKeyboard, Keyboard, session } from "grammy";
 import type { AppConfig } from "../config.js";
 import type { DbClient } from "../database.js";
-import { AnalyticsService } from "../services/analytics.js";
+import { AnalyticsService, type MarketingAttribution } from "../services/analytics.js";
 import { BookingService } from "../services/bookings.js";
 import { CatalogService } from "../services/catalog.js";
 import { DomainError } from "../services/errors.js";
@@ -44,6 +44,8 @@ type BookingDetails = {
   } | null;
 };
 
+type AnalyticsSummary = Awaited<ReturnType<AnalyticsService["summary"]>>;
+
 function mainKeyboard() {
   return new Keyboard()
     .text("Записаться")
@@ -69,7 +71,7 @@ function normalizePhone(value: string) {
 
 function normalizeSource(value: string | undefined) {
   const source = value?.trim();
-  return source && /^[a-zA-Z0-9_-]{1,80}$/.test(source) ? source : undefined;
+  return source && /^[a-zA-Z0-9_-]{1,120}$/.test(source) ? source : undefined;
 }
 
 function startPayload(ctx: BotContext) {
@@ -112,6 +114,79 @@ function telegramUser(ctx: BotContext) {
 
 function contactName(ctx: BotContext) {
   return [ctx.from?.first_name, ctx.from?.last_name].filter(Boolean).join(" ");
+}
+
+function humanToken(value: string | undefined) {
+  return value ? value.replace(/[_-]/g, " ") : undefined;
+}
+
+function humanSource(value: string | undefined) {
+  const labels: Record<string, string> = {
+    facebook: "Facebook",
+    google: "Google",
+    ig: "Instagram",
+    instagram: "Instagram",
+    meta: "Instagram/Facebook",
+    seo_booking: "Сайт, блок записи",
+    seo_home: "Сайт, главный экран",
+    seo_proof: "Сайт, блок фото",
+    seo_routes: "Сайт, маршруты",
+    telegram: "Telegram"
+  };
+
+  return value ? labels[value] ?? humanToken(value) : undefined;
+}
+
+function currentAttribution(ctx: BotContext): MarketingAttribution {
+  return ctx.session.attribution ?? { source: ctx.session.source };
+}
+
+function managerAttributionText(attribution: MarketingAttribution | undefined) {
+  const source = humanSource(attribution?.utmSource ?? attribution?.source);
+  const lines = [
+    "Откуда пришел клиент",
+    `Источник: ${source ?? "не видно"}`,
+    attribution?.utmCampaign
+      ? `Кампания: ${humanToken(attribution.utmCampaign)}`
+      : undefined,
+    attribution?.utmContent
+      ? `Объявление/кнопка: ${humanToken(attribution.utmContent)}`
+      : undefined,
+    attribution?.utmMedium ? `Тип трафика: ${humanToken(attribution.utmMedium)}` : undefined,
+    attribution?.clickId ? `ID перехода: ${attribution.clickId}` : undefined
+  ];
+
+  return lines.filter(Boolean).join("\n");
+}
+
+function formatRate(value: number) {
+  return `${value.toLocaleString("ru-RU", { maximumFractionDigits: 1 })}%`;
+}
+
+function formatStats(summary: AnalyticsSummary) {
+  const topSources = summary.sources.slice(0, 5);
+  const sourceLines = topSources.length
+    ? topSources.map(
+        (source) =>
+          `${source.name}: сайт ${source.visits}, Telegram ${source.telegramClicks}, заявки ${source.leads}, брони ${source.bookings}`
+      )
+    : ["Пока нет источников за период."];
+
+  return [
+    "Отчет за 30 дней",
+    "",
+    `Посещения сайта: ${summary.totals.visits}`,
+    `Нажали Telegram: ${summary.totals.telegramClicks}`,
+    `Открыли бота: ${summary.totals.botStarts}`,
+    `Оставили телефон: ${summary.totals.leads}`,
+    `Создали бронь: ${summary.totals.bookings}`,
+    "",
+    `Из сайта в Telegram: ${formatRate(summary.totals.clickRate)}`,
+    `Из Telegram в заявку: ${formatRate(summary.totals.leadRate)}`,
+    "",
+    "Откуда пришли:",
+    ...sourceLines
+  ].join("\n");
 }
 
 function bookingSummary(booking: BookingDetails) {
@@ -163,17 +238,42 @@ export function createBot({ config, db }: CreateBotDeps) {
     console.error("Telegram bot error", error.error);
   });
 
-  function trackBotStart(ctx: BotContext) {
-    const source = startPayload(ctx);
+  async function applyStartPayload(ctx: BotContext) {
+    const payload = startPayload(ctx);
 
-    if (source) {
-      ctx.session.source = source;
+    if (!payload) {
+      return currentAttribution(ctx);
     }
+
+    if (payload.startsWith("hs_")) {
+      const attribution = await analytics
+        .findClickAttribution(payload)
+        .catch((error: unknown) => {
+          console.error("Failed to resolve analytics click", error);
+          return undefined;
+        });
+
+      ctx.session.attribution = attribution ?? {
+        clickId: payload,
+        source: payload
+      };
+    } else {
+      ctx.session.attribution = {
+        source: payload
+      };
+    }
+
+    ctx.session.source = ctx.session.attribution.source;
+    return ctx.session.attribution;
+  }
+
+  async function trackBotStart(ctx: BotContext) {
+    const attribution = await applyStartPayload(ctx);
 
     analytics
       .track({
         type: "BOT_START",
-        source: ctx.session.source,
+        ...attribution,
         target: "telegram_bot",
         telegramUserId: ctx.from?.id,
         metadata: {
@@ -199,7 +299,7 @@ export function createBot({ config, db }: CreateBotDeps) {
   }
 
   async function handleStart(ctx: BotContext) {
-    trackBotStart(ctx);
+    await trackBotStart(ctx);
     await showHome(ctx);
   }
 
@@ -412,16 +512,31 @@ export function createBot({ config, db }: CreateBotDeps) {
     );
   }
 
-  async function notifyManager(ctx: BotContext, booking: BookingDetails) {
+  async function notifyManager(
+    ctx: BotContext,
+    booking: BookingDetails,
+    attribution?: MarketingAttribution
+  ) {
     if (!config.managerChatId) {
       return;
     }
 
     await ctx.api
-      .sendMessage(config.managerChatId, `Новая бронь\n\n${bookingSummary(booking)}`)
+      .sendMessage(
+        config.managerChatId,
+        `Новая бронь\n\n${bookingSummary(booking)}\n\n${managerAttributionText(attribution)}`
+      )
       .catch((error: unknown) => {
         console.error("Failed to notify manager", error);
       });
+  }
+
+  function isManagerChat(ctx: BotContext) {
+    return (
+      Boolean(config.managerChatId) &&
+      ctx.chat?.id !== undefined &&
+      String(ctx.chat.id) === config.managerChatId
+    );
   }
 
   async function completeBooking(ctx: BotContext, rawPhone: string) {
@@ -442,6 +557,23 @@ export function createBot({ config, db }: CreateBotDeps) {
     }
 
     try {
+      const attribution = currentAttribution(ctx);
+
+      analytics
+        .track({
+          type: "LEAD_CREATED",
+          ...attribution,
+          target: "telegram_bot",
+          telegramUserId: ctx.from?.id,
+          metadata: {
+            participants: draft.participants,
+            phoneLast4: phone.slice(-4)
+          }
+        })
+        .catch((error: unknown) => {
+          console.error("Failed to track lead", error);
+        });
+
       const booking = await bookings.createBooking({
         telegramUser: telegramUser(ctx),
         slotId: draft.slotId,
@@ -455,7 +587,7 @@ export function createBot({ config, db }: CreateBotDeps) {
       analytics
         .track({
           type: "BOOKING_CREATED",
-          source: ctx.session.source,
+          ...attribution,
           target: "telegram_bot",
           telegramUserId: ctx.from?.id,
           metadata: {
@@ -476,7 +608,7 @@ export function createBot({ config, db }: CreateBotDeps) {
         reply_markup: removeKeyboard()
       });
       await sendPaymentOrManual(ctx, booking.publicCode);
-      await notifyManager(ctx, booking);
+      await notifyManager(ctx, booking, attribution);
     } catch (error) {
       if (error instanceof DomainError) {
         await ctx.reply(error.message, { reply_markup: mainKeyboard() });
@@ -518,6 +650,22 @@ export function createBot({ config, db }: CreateBotDeps) {
   bot.command("book", showLocations);
   bot.command("horses", (ctx) => showHorses(ctx));
   bot.command("locations", showLocationInfo);
+  bot.command("stats", async (ctx) => {
+    if (!isManagerChat(ctx)) {
+      await ctx.reply("Эта команда доступна только менеджеру.");
+      return;
+    }
+
+    const from = new Date();
+    from.setDate(from.getDate() - 30);
+
+    const summary = await analytics.summary({
+      from,
+      to: new Date()
+    });
+
+    await ctx.reply(formatStats(summary));
+  });
 
   bot.command("my", async (ctx) => {
     if (!ctx.from) {

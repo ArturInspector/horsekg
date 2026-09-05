@@ -45,6 +45,7 @@ enum AnalyticsEventType {
   PAGE_VIEW
   TELEGRAM_CLICK
   BOT_START
+  LEAD_CREATED
   BOOKING_CREATED
 }
 
@@ -194,10 +195,53 @@ model TelegramSession {
   updatedAt DateTime @updatedAt
 }
 
+model MarketingClick {
+  id          String           @id @default(cuid())
+  clickId     String           @unique
+  source      String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  utmContent  String?
+  utmTerm     String?
+  campaignId  String?
+  adSetId     String?
+  adId        String?
+  fbclid      String?
+  gclid       String?
+  yclid       String?
+  pagePath    String?
+  target      String?
+  sessionId   String?
+  referrer    String?
+  userAgent   String?
+  metadata    Json?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  events      AnalyticsEvent[]
+
+  @@index([source, createdAt])
+  @@index([utmSource, createdAt])
+  @@index([utmCampaign, createdAt])
+  @@index([sessionId, createdAt])
+}
+
 model AnalyticsEvent {
   id             String             @id @default(cuid())
   type           AnalyticsEventType
+  clickId        String?
   source         String?
+  utmSource      String?
+  utmMedium      String?
+  utmCampaign    String?
+  utmContent     String?
+  utmTerm        String?
+  campaignId     String?
+  adSetId        String?
+  adId           String?
+  fbclid         String?
+  gclid          String?
+  yclid          String?
   pagePath       String?
   target         String?
   sessionId      String?
@@ -206,9 +250,13 @@ model AnalyticsEvent {
   referrer       String?
   metadata       Json?
   createdAt      DateTime           @default(now())
+  marketingClick MarketingClick?     @relation(fields: [clickId], references: [clickId], onDelete: SetNull)
 
   @@index([type, createdAt])
+  @@index([clickId, createdAt])
   @@index([source, createdAt])
+  @@index([utmSource, createdAt])
+  @@index([utmCampaign, createdAt])
   @@index([sessionId, createdAt])
   @@index([telegramUserId, createdAt])
 }

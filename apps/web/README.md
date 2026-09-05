@@ -15,3 +15,8 @@ The app reads source photos from `../../public/assets/landing/source-pending` du
 
 - `NEXT_PUBLIC_SITE_URL`: canonical public URL for metadata, sitemap and robots.
 - `NEXT_PUBLIC_API_URL`: public API URL used by landing analytics.
+
+## Admin
+
+Open `/admin/analytics` to see visits, Telegram clicks, leads and bookings.
+Use the `ANALYTICS_ADMIN_TOKEN` from the API service.

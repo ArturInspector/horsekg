@@ -50,12 +50,28 @@ const createBookingSchema = z.object({
 
 const analyticsEventSchema = z.object({
   type: z.enum(["PAGE_VIEW", "TELEGRAM_CLICK"]),
-  source: z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/).optional(),
+  clickId: z.string().regex(/^hs_[a-zA-Z0-9_-]{6,40}$/).optional(),
+  source: z.string().regex(/^[a-zA-Z0-9_.-]{1,120}$/).optional(),
+  utmSource: z.string().max(120).optional(),
+  utmMedium: z.string().max(120).optional(),
+  utmCampaign: z.string().max(160).optional(),
+  utmContent: z.string().max(160).optional(),
+  utmTerm: z.string().max(160).optional(),
+  campaignId: z.string().max(120).optional(),
+  adSetId: z.string().max(120).optional(),
+  adId: z.string().max(120).optional(),
+  fbclid: z.string().max(500).optional(),
+  gclid: z.string().max(500).optional(),
+  yclid: z.string().max(500).optional(),
   pagePath: z.string().min(1).max(300).optional(),
   target: z.string().min(1).max(120).optional(),
   sessionId: z.string().min(1).max(120).optional(),
   referrer: z.string().max(500).optional(),
   metadata: z.record(z.string(), z.unknown()).optional()
+});
+
+const marketingClickSchema = analyticsEventSchema.omit({ type: true }).extend({
+  target: z.string().min(1).max(120)
 });
 
 const analyticsSummaryQuerySchema = z.object({
@@ -67,6 +83,20 @@ function defaultSummaryFrom() {
   const date = new Date();
   date.setDate(date.getDate() - 30);
   return date;
+}
+
+function parseSummaryDate(value: string | undefined, endOfDay = false) {
+  if (!value) {
+    return undefined;
+  }
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return new Date(
+      `${value}T${endOfDay ? "23:59:59.999" : "00:00:00.000"}+06:00`
+    );
+  }
+
+  return parseDate(value);
 }
 
 function headerString(value: string | string[] | undefined) {
@@ -156,6 +186,17 @@ export async function buildServer({ bot, config, db }: BuildServerDeps) {
     reply.status(204).send();
   });
 
+  app.post("/api/analytics/clicks", async (request, reply) => {
+    const input = marketingClickSchema.parse(request.body);
+    const click = await analytics.createTelegramClick({
+      ...input,
+      userAgent: headerString(request.headers["user-agent"])
+    });
+
+    reply.status(201);
+    return click;
+  });
+
   app.get("/api/analytics/summary", async (request, reply) => {
     if (config.analyticsAdminToken) {
       const authHeader = request.headers.authorization;
@@ -174,8 +215,8 @@ export async function buildServer({ bot, config, db }: BuildServerDeps) {
     }
 
     const query = analyticsSummaryQuerySchema.parse(request.query);
-    const from = parseDate(query.from) ?? defaultSummaryFrom();
-    const to = parseDate(query.to) ?? new Date();
+    const from = parseSummaryDate(query.from) ?? defaultSummaryFrom();
+    const to = parseSummaryDate(query.to, true) ?? new Date();
 
     return analytics.summary({ from, to });
   });

@@ -44,22 +44,46 @@
 
 ## Tracking
 
-Deep links в Telegram:
+Deep links в Telegram для обычного SEO fallback:
 
 - `https://t.me/horsekgbot?start=seo_home` - главный CTA в hero.
 - `https://t.me/horsekgbot?start=seo_booking` - быстрый выбор времени.
 - `https://t.me/horsekgbot?start=seo_routes` - CTA в карточках маршрутов.
 - `https://t.me/horsekgbot?start=seo_proof` - CTA в блоке фото/доверия.
 
+Для таргета ссылка ведет не сразу в Telegram, а на сайт с UTM:
+
+```text
+https://<domain>/?utm_source=instagram&utm_medium=paid&utm_campaign=chunkurchak_weekend&utm_content=story_1
+```
+
+Когда человек нажимает кнопку Telegram, сайт создает короткий `clickId`,
+например `hs_a8K29xQp`, и открывает:
+
+```text
+https://t.me/horsekgbot?start=hs_a8K29xQp
+```
+
+Бот по этому ID находит исходную UTM-ссылку и привязывает к заявке.
+
 События:
 
 - `PAGE_VIEW`: загрузка лендинга, источник по `utm_source` или `seo_home`.
 - `TELEGRAM_CLICK`: клик по CTA в Telegram.
 - `BOT_START`: пользователь открыл бота через `/start <source>`.
+- `LEAD_CREATED`: пользователь оставил телефон. Это считаем заявкой.
 - `BOOKING_CREATED`: пользователь дошел до созданной брони.
 
 MVP-отчет: `GET /api/analytics/summary?from=YYYY-MM-DD&to=YYYY-MM-DD`.
 Если задан `ANALYTICS_ADMIN_TOKEN`, передавать `Authorization: Bearer <token>`.
+
+Админка: `/admin/analytics`. Вставить токен отчета и смотреть:
+
+- `Посещения сайта`: сколько открыли лендинг.
+- `Нажали кнопку Telegram`: сколько ушли с сайта в бот.
+- `Открыли бота`: сколько реально запустили Telegram-бота.
+- `Оставили телефон`: сколько стало заявками.
+- `Создали бронь`: сколько заявок записалось в систему.
 
 Для оценки SEO нужны:
 

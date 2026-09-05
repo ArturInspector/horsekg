@@ -59,6 +59,7 @@ Create real values from `.env.example`.
 - `GET /api/availability?locationId=...&packageId=...`
 - `POST /api/bookings`
 - `POST /api/analytics/events`
+- `POST /api/analytics/clicks`
 - `GET /api/analytics/summary`
 
 ## Telegram Commands
@@ -68,6 +69,18 @@ Create real values from `.env.example`.
 - `/horses`: available horses
 - `/locations`: locations and maps
 - `/my`: user bookings
+- `/stats`: manager-only 30-day source, lead and booking report
+
+## Analytics
+
+The landing page keeps UTM labels and creates a short Telegram `clickId` before
+opening the bot. The bot receives `/start hs_...`, resolves the original source,
+and attaches it to lead and booking events.
+
+- Admin page: `/admin/analytics`
+- A lead means the customer left a phone number.
+- A booking means the lead was saved as a booking.
+- `GET /api/analytics/summary` requires `ANALYTICS_ADMIN_TOKEN` when it is set.
 
 ## Product Plan
 
