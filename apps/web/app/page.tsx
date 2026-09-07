@@ -172,13 +172,31 @@ export default function Home() {
                     </li>
                   </ul>
                   <p>{route.description}</p>
-                  <div className="timeRow" aria-label="Ближайшее время">
-                    <span>Ориентир:</span>
-                    {route.nearestTimes.map((time) => (
-                      <b key={time}>{time}</b>
-                    ))}
+                  <div className="routeAvailabilityPreview">
+                    <p className={`availabilityStatus ${route.availability.status}`}>
+                      <span aria-hidden="true" />
+                      {route.availability.statusLabel}
+                    </p>
+                    <div className="slotGrid compact" aria-label="Ближайшие слоты">
+                      {route.availability.slots.map((slot) => (
+                        <span className={slot.state} key={slot.time}>
+                          <b>{slot.time}</b>
+                          {slot.label}
+                        </span>
+                      ))}
+                    </div>
+                    <ul className="includedMini">
+                      {route.included.slice(0, 2).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <small>{route.caution}</small>
+                  <small>
+                    {route.availability.capacityLabel} •{" "}
+                    {route.availability.confirmationMode === "manager_confirmation"
+                      ? "подтверждение менеджером"
+                      : route.availability.confirmationMode}
+                  </small>
                   <div className="routeActions">
                     <a
                       className="v2Button small primary"
@@ -370,6 +388,8 @@ export default function Home() {
           analyticsSource="seo_mobile_sticky"
           analyticsTarget="mobile_sticky_cta"
           href={siteCopy.botUrls.home}
+          price={siteCopy.bookingPanel.price}
+          summary="Проверить дату, группу и свободных лошадей"
         />
       </main>
     </>

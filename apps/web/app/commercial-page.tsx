@@ -122,11 +122,19 @@ function RouteCard({ source }: { source: string }) {
                 {route.level}
               </li>
             </ul>
-            <div className="timeRow">
-              <span>Ориентир:</span>
-              {route.nearestTimes.map((time) => (
-                <b key={time}>{time}</b>
-              ))}
+            <div className="routeAvailabilityPreview">
+              <p className={`availabilityStatus ${route.availability.status}`}>
+                <span aria-hidden="true" />
+                {route.availability.statusLabel}
+              </p>
+              <div className="slotGrid compact" aria-label="Ближайшие слоты">
+                {route.availability.slots.map((slot) => (
+                  <span className={slot.state} key={slot.time}>
+                    <b>{slot.time}</b>
+                    {slot.label}
+                  </span>
+                ))}
+              </div>
             </div>
             <a
               className="v2Button small primary"
@@ -182,6 +190,11 @@ export function CommercialPageView({ slug }: { slug: CommercialPage["slug"] }) {
             <span>Ориентир</span>
             <strong>от 1 500 сом/чел</strong>
             <p>1-2 часа • Чункурчак и Аламедин • подтверждение в Telegram</p>
+            <div className="commercialAvailability">
+              <b>{siteCopy.bookingPanel.availability.title}</b>
+              <span>{siteCopy.bookingPanel.availability.status}</span>
+              <small>{siteCopy.bookingPanel.availability.emptyState}</small>
+            </div>
             <a
               className="v2Button dark full"
               href={botUrl}

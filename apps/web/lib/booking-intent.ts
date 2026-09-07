@@ -6,10 +6,17 @@ export type BookingIntentMetadata = {
   intentVersion: "booking_intent_v1";
   bookingIntent: {
     surface: string;
+    selectedRouteSlug?: string;
     when?: string;
     location?: string;
     participants?: string;
     duration?: string;
+    selectedSlot?: string;
+    availabilityStatus?: string;
+    confirmationMode?: string;
+    capacityMin?: number;
+    capacityMax?: number;
+    fallbackAlternatives?: readonly string[];
     whenId?: string;
     locationId?: string;
     participantsId?: string;
@@ -26,6 +33,10 @@ export type RouteIntentMetadata = {
     location: string;
     duration: string;
     price: string;
+    availabilityStatus: string;
+    confirmationMode: string;
+    capacityMax: number;
+    slots: readonly string[];
   };
 };
 
@@ -48,16 +59,32 @@ function slugify(value: string | undefined) {
 
 export function createBookingIntentMetadata(
   selection: BookingIntentSelection,
-  surface: string
+  surface: string,
+  availability?: {
+    selectedRouteSlug?: string;
+    selectedSlot?: string;
+    availabilityStatus?: string;
+    confirmationMode?: string;
+    capacityMin?: number;
+    capacityMax?: number;
+    fallbackAlternatives?: readonly string[];
+  }
 ): BookingIntentMetadata {
   return {
     intentVersion: "booking_intent_v1",
     bookingIntent: {
       surface,
+      selectedRouteSlug: availability?.selectedRouteSlug,
       when: selection["Когда"],
       location: selection["Локация"],
       participants: selection["Участники"],
       duration: selection["Длительность"],
+      selectedSlot: availability?.selectedSlot,
+      availabilityStatus: availability?.availabilityStatus,
+      confirmationMode: availability?.confirmationMode,
+      capacityMin: availability?.capacityMin,
+      capacityMax: availability?.capacityMax,
+      fallbackAlternatives: availability?.fallbackAlternatives,
       whenId: slugify(selection["Когда"]),
       locationId: slugify(selection["Локация"]),
       participantsId: slugify(selection["Участники"]),
@@ -78,7 +105,11 @@ export function createRouteIntentMetadata(
       title: route.title,
       location: route.area,
       duration: route.duration,
-      price: route.price
+      price: route.price,
+      availabilityStatus: route.availability.status,
+      confirmationMode: route.availability.confirmationMode,
+      capacityMax: route.availability.capacityMax,
+      slots: route.availability.slots.map((slot) => slot.time)
     }
   };
 }

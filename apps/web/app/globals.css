@@ -1700,7 +1700,7 @@ h3 {
 }
 
 .v2Hero {
-  padding: 28px 0 42px;
+  padding: 28px 0 24px;
 }
 
 .v2HeroGrid {
@@ -1766,15 +1766,182 @@ h3 {
   grid-column: auto;
   width: 100%;
   margin: 0;
+  padding: 16px;
 }
 
 .bookingFields {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 0;
+  margin-bottom: 12px;
 }
 
 .bookingField {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  border-width: 1px 0 0;
+  border-radius: 0;
+  padding: 9px 0;
+}
+
+.availabilityBox,
+.routeRailAvailability,
+.commercialAvailability {
+  display: grid;
+  gap: 10px;
+  border: 1px solid #d8e2ea;
+  border-radius: 8px;
+  background: #f8fafb;
   padding: 12px;
+}
+
+.availabilityBox {
+  margin-bottom: 12px;
+}
+
+.availabilityBoxTop {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.availabilityBoxTop span,
+.commercialAvailability b,
+.alternativeMini span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.availabilityBoxTop strong {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.availabilityStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: #1f4e3d;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.availabilityStatus span {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #1fa36b;
+}
+
+.availabilityStatus.weather_check span {
+  background: #d08518;
+}
+
+.slotGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.slotGrid button,
+.slotGrid span {
+  display: grid;
+  gap: 4px;
+  min-height: 54px;
+  border: 1px solid #d6e4e8;
+  border-radius: 8px;
+  background: var(--white);
+  padding: 8px;
+  color: #24483d;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.slotGrid button {
+  cursor: pointer;
+}
+
+.slotGrid button.selected {
+  border-color: #229ed9;
+  background: #edf8ff;
+  color: #176d9b;
+}
+
+.slotGrid button:disabled,
+.slotGrid span.unavailable {
+  color: #79837e;
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.slotGrid b {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.slotGrid.compact {
+  grid-template-columns: repeat(3, minmax(74px, 1fr));
+}
+
+.slotGrid.compact span {
+  min-height: 46px;
+}
+
+.slotGrid .few {
+  border-color: #e5c677;
+  background: #fff9e9;
+}
+
+.slotGrid .weather_check {
+  border-color: #d9d5c7;
+  background: #f9f6ee;
+}
+
+.availabilityMeta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.availabilityMeta div {
+  display: grid;
+  gap: 4px;
+}
+
+.availabilityMeta dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.availabilityMeta dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.availabilityEmpty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .v2GalleryMain {
@@ -1795,6 +1962,34 @@ h3 {
 
 .bookingField {
   background: #fff;
+}
+
+.bookingPanelTop {
+  margin-bottom: 10px;
+}
+
+.bookingPanelTop strong {
+  font-size: 21px;
+}
+
+.bookingField > span {
+  margin: 0;
+  font-size: 12px;
+}
+
+.bookingField > strong {
+  display: none;
+}
+
+.choiceRow {
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.choiceRow span,
+.choiceRow button {
+  padding: 6px 8px;
+  font-size: 12px;
 }
 
 .choiceRow span:first-child,
@@ -1819,6 +2014,12 @@ h3 {
   font-size: 14px;
   font-weight: 850;
   line-height: 1.45;
+}
+
+.bookingPanel .bookingNote {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .tightTop {
@@ -1880,6 +2081,29 @@ h3 {
   padding: 6px 9px;
   font-size: 13px;
   line-height: 1;
+}
+
+.routeAvailabilityPreview {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 10px;
+}
+
+.includedMini {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  list-style: none;
+}
+
+.includedMini li::before {
+  color: #1fa36b;
+  content: "\2713 ";
+  font-weight: 900;
 }
 
 .sectionNote {
@@ -1995,9 +2219,21 @@ h3 {
 }
 
 .mobileBookingBar span {
+  display: grid;
+  gap: 2px;
   color: var(--ink);
+  line-height: 1.2;
+}
+
+.mobileBookingBar b {
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 950;
+}
+
+.mobileBookingBar small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 760;
 }
 
 .mobileBookingBar a {
@@ -2065,6 +2301,18 @@ h3 {
   line-height: 1.5;
 }
 
+.commercialAvailability span {
+  color: #1f4e3d;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.commercialAvailability small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .commercialInfoGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2105,6 +2353,26 @@ h3 {
   display: grid;
   gap: 12px;
   padding: 20px;
+}
+
+.routePageHero {
+  padding: 32px 0 34px;
+}
+
+.routePageGrid {
+  align-items: start;
+  gap: 36px;
+}
+
+.alternativeMini {
+  display: grid;
+  gap: 6px;
+}
+
+.alternativeMini b {
+  color: #1b658c;
+  font-size: 13px;
+  line-height: 1.25;
 }
 
 .routeDetailMatrix {
@@ -2339,16 +2607,24 @@ h3 {
   }
 
   .bookingFields {
-    grid-template-columns: 1fr;
     gap: 9px;
   }
 
   .bookingField {
-    padding: 12px;
+    grid-template-columns: 74px minmax(0, 1fr);
+    padding: 8px 0;
   }
 
   .v2Gallery {
     min-height: 0;
+  }
+
+  .v2GalleryMain {
+    aspect-ratio: 1.45;
+  }
+
+  .v2GallerySide {
+    display: none;
   }
 
   .routeShelf,

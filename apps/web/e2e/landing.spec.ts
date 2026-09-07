@@ -61,6 +61,8 @@ test("mobile landing puts booking before gallery", async ({ page }, testInfo) =>
   });
 
   expect(order.pickerTop).toBeLessThan(order.galleryTop);
+  await expect(page.locator(".mobileBookingBar")).toBeVisible();
+  await expect(page.locator(".mobileBookingBar")).toContainText("Проверить");
 });
 
 test("mobile booking picker stores selected Telegram intent", async ({
@@ -82,6 +84,10 @@ test("mobile booking picker stores selected Telegram intent", async ({
   expect(metadata).toContain('"location":"Аламедин"');
   expect(metadata).toContain('"participants":"3-6"');
   expect(metadata).toContain('"duration":"2 часа"');
+  expect(metadata).toContain('"selectedSlot":"10:00"');
+  expect(metadata).toContain('"availabilityStatus":"request"');
+  expect(metadata).toContain('"confirmationMode":"manager_confirmation"');
+  expect(metadata).toContain('"capacityMax":6');
 });
 
 for (const path of commercialPages) {

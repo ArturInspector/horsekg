@@ -205,12 +205,36 @@ export default async function RoutePage({ params }: Props) {
               <span>Цена</span>
               <strong>{route.price}</strong>
               <p>{route.caution}</p>
-              <div className="timeRow">
-                <span>Ориентир:</span>
-                {route.nearestTimes.map((time) => (
-                  <b key={time}>{time}</b>
-                ))}
-              </div>
+              <section className="routeRailAvailability" aria-label="Доступность">
+                <p className={`availabilityStatus ${route.availability.status}`}>
+                  <span aria-hidden="true" />
+                  {route.availability.statusLabel}
+                </p>
+                <div className="slotGrid compact">
+                  {route.availability.slots.map((slot) => (
+                    <span className={slot.state} key={slot.time}>
+                      <b>{slot.time}</b>
+                      {slot.label}
+                    </span>
+                  ))}
+                </div>
+                <dl className="availabilityMeta">
+                  <div>
+                    <dt>Группа</dt>
+                    <dd>{route.availability.capacityLabel}</dd>
+                  </div>
+                  <div>
+                    <dt>Подтверждение</dt>
+                    <dd>менеджером</dd>
+                  </div>
+                </dl>
+                <div className="alternativeMini">
+                  <span>Если занято:</span>
+                  {route.availability.fallbackAlternatives.map((alternative) => (
+                    <b key={alternative}>{alternative}</b>
+                  ))}
+                </div>
+              </section>
               <a
                 className="v2Button dark full"
                 href={siteCopy.botUrls.routes}

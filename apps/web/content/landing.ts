@@ -79,6 +79,14 @@ export const siteCopy = {
     price: "от 1 500 сом/чел",
     note:
       "Это не мгновенная покупка: слот, лошадей, погоду и точку старта подтверждает менеджер.",
+    availability: {
+      title: "Доступность",
+      status: "по запросу",
+      mode: "подтверждает менеджер",
+      apiState: "fallback_static",
+      emptyState:
+        "Если выбранный слот занят, менеджер предложит ближайшее время или похожий маршрут."
+    },
     fields: [
       {
         label: "Когда",
@@ -126,6 +134,24 @@ export const siteCopy = {
       groupSize: "до 6 человек",
       level: "для новичков",
       nearestTimes: ["10:00", "13:00", "16:00"],
+      availability: {
+        status: "request",
+        statusLabel: "проверяем свободных лошадей",
+        confirmationMode: "manager_confirmation",
+        capacityMin: 1,
+        capacityMax: 6,
+        capacityLabel: "1-6 человек",
+        dates: ["Сегодня", "Завтра", "Выходные"],
+        slots: [
+          { time: "10:00", state: "request", label: "по запросу" },
+          { time: "13:00", state: "few", label: "мало мест" },
+          { time: "16:00", state: "request", label: "по запросу" }
+        ],
+        fallbackAlternatives: [
+          "Чункурчак, горный маршрут 2 часа",
+          "Аламедин для новичков"
+        ]
+      },
       description:
         "Короткий маршрут с инструктором недалеко от Бишкека. Подходит для первого знакомства с верховой ездой и спокойной прогулки в компании.",
       image: `${assetPath}/karabulak-tour-horse-2.jpg`,
@@ -177,6 +203,24 @@ export const siteCopy = {
       groupSize: "до 5 человек",
       level: "базовый комфорт в седле",
       nearestTimes: ["10:00", "13:00", "16:00"],
+      availability: {
+        status: "weather_check",
+        statusLabel: "зависит от погоды и света",
+        confirmationMode: "manager_confirmation",
+        capacityMin: 1,
+        capacityMax: 5,
+        capacityLabel: "1-5 человек",
+        dates: ["Завтра", "Выходные"],
+        slots: [
+          { time: "10:00", state: "request", label: "по запросу" },
+          { time: "13:00", state: "weather_check", label: "погода" },
+          { time: "16:00", state: "unavailable", label: "по сезону" }
+        ],
+        fallbackAlternatives: [
+          "Чункурчак, прогулка 1 час",
+          "Аламедин для новичков"
+        ]
+      },
       description:
         "Более длинная поездка с горными видами и остановками для фото. Лучше выбирать, если готовы провести в седле около двух часов.",
       image: `${assetPath}/karabulak-tour-horse-3.jpg`,
@@ -228,6 +272,24 @@ export const siteCopy = {
       groupSize: "до 6 человек",
       level: "для новичков",
       nearestTimes: ["10:00", "13:00", "16:00"],
+      availability: {
+        status: "request",
+        statusLabel: "подходит после уточнения группы",
+        confirmationMode: "manager_confirmation",
+        capacityMin: 1,
+        capacityMax: 6,
+        capacityLabel: "1-6 человек",
+        dates: ["Сегодня", "Завтра", "Выходные"],
+        slots: [
+          { time: "10:00", state: "request", label: "по запросу" },
+          { time: "13:00", state: "request", label: "по запросу" },
+          { time: "16:00", state: "few", label: "мало мест" }
+        ],
+        fallbackAlternatives: [
+          "Чункурчак, прогулка 1 час",
+          "Чункурчак, горный маршрут 2 часа"
+        ]
+      },
       description:
         "Прогулка на лошадях в ущелье для тех, кто хочет понятный темп, инструктора рядом и маршрут без спортивной нагрузки.",
       image: `${assetPath}/instagram-hydepark-post-CoJvZkhsdeY.jpg`,
