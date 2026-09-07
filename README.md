@@ -33,7 +33,7 @@ npm run dev -- --port 3001
 npm run build
 ```
 
-Set `NEXT_PUBLIC_SITE_URL` to the production landing domain before deployment.
+Set `NEXT_PUBLIC_SITE_URL=https://ride.kg` before web deployment.
 Set `NEXT_PUBLIC_API_URL` to the production API URL so landing analytics events
 are written to the backend.
 
