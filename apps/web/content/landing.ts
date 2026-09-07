@@ -1,7 +1,7 @@
 const assetPath = "/assets/landing/source-pending";
 
 export const siteCopy = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://horsekg.kg",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ride.kg",
   botUrls: {
     home: "https://t.me/horsekgbot?start=seo_home",
     booking: "https://t.me/horsekgbot?start=seo_booking",

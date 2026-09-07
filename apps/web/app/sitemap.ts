@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { blogPosts } from "../content/blog";
 import { siteCopy } from "../content/landing";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://horsekg.kg";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ride.kg";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
