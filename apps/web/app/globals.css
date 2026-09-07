@@ -1063,14 +1063,18 @@ h3 {
   gap: 7px;
 }
 
-.choiceRow span {
+.choiceRow span,
+.choiceRow button {
   border: 1px solid #dfe8df;
   border-radius: 999px;
   padding: 7px 9px;
   background: #f8faf7;
   color: #43534b;
+  cursor: pointer;
   font-size: 13px;
   font-weight: 760;
+  font-family: inherit;
+  line-height: 1;
 }
 
 .bookingNote {
@@ -1762,10 +1766,28 @@ h3 {
   background: #fff;
 }
 
-.choiceRow span:first-child {
+.choiceRow span:first-child,
+.choiceRow button.selected {
   border-color: #229ed9;
   background: #edf8ff;
   color: #176d9b;
+}
+
+.choiceRow button:focus-visible {
+  outline: 3px solid rgba(34, 158, 217, 0.22);
+  outline-offset: 2px;
+}
+
+.bookingSummary {
+  margin: -2px 0 14px;
+  border: 1px solid #d8e2ea;
+  border-radius: 8px;
+  background: #f4f7fb;
+  color: #1b455d;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.45;
 }
 
 .tightTop {
@@ -1927,6 +1949,18 @@ h3 {
   background: rgba(255, 255, 255, 0.96);
   padding: 10px;
   box-shadow: 0 18px 54px rgba(16, 24, 22, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(14px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.mobileBookingBar.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .mobileBookingBar span {

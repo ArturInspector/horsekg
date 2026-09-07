@@ -163,6 +163,33 @@ function fallbackSourceFromPath(pathname: string) {
   return "seo_home";
 }
 
+function analyticsMetadata(link: HTMLAnchorElement) {
+  const baseMetadata = {
+    href: link.href,
+    text: link.textContent?.trim()
+  };
+  const rawMetadata = link.dataset.analyticsMetadata;
+
+  if (!rawMetadata) {
+    return baseMetadata;
+  }
+
+  try {
+    const parsed = JSON.parse(rawMetadata) as unknown;
+
+    if (typeof parsed === "object" && parsed !== null && !Array.isArray(parsed)) {
+      return {
+        ...baseMetadata,
+        ...parsed
+      };
+    }
+  } catch {
+    return baseMetadata;
+  }
+
+  return baseMetadata;
+}
+
 export function AnalyticsTracker() {
   useEffect(() => {
     if (window.location.pathname.startsWith("/admin")) {
@@ -214,10 +241,7 @@ export function AnalyticsTracker() {
         target: link.dataset.analyticsTarget,
         sessionId,
         referrer: document.referrer || undefined,
-        metadata: {
-          href: fallbackHref,
-          text: link.textContent?.trim()
-        }
+        metadata: analyticsMetadata(link)
       });
 
       window.location.href = click?.clickId

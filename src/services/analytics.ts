@@ -71,20 +71,52 @@ const SOURCE_LABELS: Record<string, string> = {
   seo_home: "Сайт: главный экран",
   seo_booking: "Сайт: блок записи",
   seo_routes: "Сайт: маршруты",
+  seo_prices: "Сайт: цены",
+  seo_beginners: "Сайт: новичкам",
+  seo_kids: "Сайт: с детьми",
+  seo_instagram: "Сайт: Instagram и фото",
   seo_proof: "Сайт: фото и доверие",
+  seo_footer: "Сайт: футер",
+  seo_mobile_sticky: "Сайт: нижняя кнопка",
   prod_cli_check: "Проверка API",
   telegram: "Telegram"
 };
 
 const TARGET_LABELS: Record<string, string> = {
+  article_header_cta: "Статья: кнопка в шапке",
+  article_sidebar_cta: "Статья: боковая заявка",
+  blog_header_cta: "Блог: кнопка в шапке",
+  blog_hero_cta: "Блог: первый экран",
+  commercial_header_cta: "Коммерческая страница: кнопка в шапке",
   deploy_check: "Проверка деплоя",
+  footer_cta: "Футер",
   hero_primary: "Главная кнопка сверху",
+  header_cta: "Кнопка в шапке",
+  mobile_sticky_cta: "Мобильная нижняя кнопка",
   quick_booking: "Быстрый выбор времени",
   proof_cta: "Блок фото и доверия",
   route_alamedin_first_ride: "Маршрут: Аламедин для первого раза",
   route_chunkurchak_1h: "Маршрут: Чункурчак 1 час",
   route_chunkurchak_2h: "Маршрут: Чункурчак 2 часа",
   telegram_bot: "Telegram-бот"
+};
+
+const TARGET_SUFFIX_LABELS: Record<string, string> = {
+  booking_card: "карточка брони",
+  footer_cta: "футер",
+  header: "кнопка в шапке",
+  hero_booking_card: "карточка брони в первом экране",
+  hero_cta: "первый экран",
+  route_page: "первый экран маршрута",
+  weather_cta: "погода и перенос"
+};
+
+const COMMERCIAL_PAGE_LABELS: Record<string, string> = {
+  "for-beginners": "Новичкам",
+  instagram: "Instagram и фото",
+  prices: "Цены",
+  routes: "Маршруты",
+  "with-kids": "С детьми"
 };
 
 function cleanText(value: string | undefined, maxLength: number) {
@@ -190,7 +222,33 @@ function humanTarget(value: string | undefined) {
     return "Неизвестно";
   }
 
-  return TARGET_LABELS[value] ?? value.replace(/[_-]/g, " ");
+  if (TARGET_LABELS[value]) {
+    return TARGET_LABELS[value];
+  }
+
+  const commercialTarget = value.match(
+    /^(routes|prices|for-beginners|with-kids|instagram)_(hero_cta|booking_card|footer_cta)$/
+  );
+
+  if (commercialTarget) {
+    const [, page, suffix] = commercialTarget;
+    return `${COMMERCIAL_PAGE_LABELS[page]}: ${
+      TARGET_SUFFIX_LABELS[suffix] ?? suffix.replace(/_/g, " ")
+    }`;
+  }
+
+  for (const [target, label] of Object.entries(TARGET_LABELS)) {
+    const prefix = `${target}_`;
+
+    if (value.startsWith(prefix)) {
+      const suffix = value.slice(prefix.length);
+      return `${label}: ${
+        TARGET_SUFFIX_LABELS[suffix] ?? suffix.replace(/[_-]/g, " ")
+      }`;
+    }
+  }
+
+  return value.replace(/[_-]/g, " ");
 }
 
 function sourceKey(event: Pick<MarketingAttribution, "source" | "utmSource">) {

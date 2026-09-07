@@ -18,6 +18,7 @@ import {
   siteCopy,
   type LandingRoute
 } from "../../../content/landing";
+import { createRouteIntentMetadata, metadataJson } from "../../../lib/booking-intent";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -184,6 +185,9 @@ export default async function RoutePage({ params }: Props) {
                 href={siteCopy.botUrls.routes}
                 data-analytics-source={siteCopy.routesSection.source}
                 data-analytics-target={`${route.analyticsTarget}_route_page`}
+                data-analytics-metadata={metadataJson(
+                  createRouteIntentMetadata(route, "route_detail_hero")
+                )}
               >
                 Проверить время
                 <CalendarDays size={18} />
@@ -202,7 +206,7 @@ export default async function RoutePage({ params }: Props) {
               <strong>{route.price}</strong>
               <p>{route.caution}</p>
               <div className="timeRow">
-                <span>Время:</span>
+                <span>Ориентир:</span>
                 {route.nearestTimes.map((time) => (
                   <b key={time}>{time}</b>
                 ))}
@@ -212,6 +216,9 @@ export default async function RoutePage({ params }: Props) {
                 href={siteCopy.botUrls.routes}
                 data-analytics-source={siteCopy.routesSection.source}
                 data-analytics-target={`${route.analyticsTarget}_hero_booking_card`}
+                data-analytics-metadata={metadataJson(
+                  createRouteIntentMetadata(route, "route_detail_booking_card")
+                )}
               >
                 Записаться в Telegram
                 <ArrowRight size={18} />
@@ -260,6 +267,9 @@ export default async function RoutePage({ params }: Props) {
             href={siteCopy.botUrls.routes}
             data-analytics-source={siteCopy.routesSection.source}
             data-analytics-target={`${route.analyticsTarget}_weather_cta`}
+            data-analytics-metadata={metadataJson(
+              createRouteIntentMetadata(route, "route_detail_weather")
+            )}
           >
             Уточнить условия
           </a>
@@ -345,6 +355,9 @@ export default async function RoutePage({ params }: Props) {
             href={siteCopy.botUrls.routes}
             data-analytics-source={siteCopy.routesSection.source}
             data-analytics-target={`${route.analyticsTarget}_footer_cta`}
+            data-analytics-metadata={metadataJson(
+              createRouteIntentMetadata(route, "route_detail_footer")
+            )}
           >
             {siteCopy.telegramHandle}
           </a>

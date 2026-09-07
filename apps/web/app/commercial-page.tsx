@@ -14,6 +14,11 @@ import {
   getCommercialPageBySlug,
   siteCopy
 } from "../content/landing";
+import {
+  createCommercialIntentMetadata,
+  createRouteIntentMetadata,
+  metadataJson
+} from "../lib/booking-intent";
 
 export function commercialMetadata(slug: CommercialPage["slug"]): Metadata {
   const page = getCommercialPageBySlug(slug);
@@ -118,7 +123,7 @@ function RouteCard({ source }: { source: string }) {
               </li>
             </ul>
             <div className="timeRow">
-              <span>Время:</span>
+              <span>Ориентир:</span>
               {route.nearestTimes.map((time) => (
                 <b key={time}>{time}</b>
               ))}
@@ -128,6 +133,9 @@ function RouteCard({ source }: { source: string }) {
               href={siteCopy.botUrls.routes}
               data-analytics-source={source}
               data-analytics-target={route.analyticsTarget}
+              data-analytics-metadata={metadataJson(
+                createRouteIntentMetadata(route, "commercial_route_card")
+              )}
             >
               Выбрать
             </a>
@@ -158,6 +166,9 @@ export function CommercialPageView({ slug }: { slug: CommercialPage["slug"] }) {
                 href={botUrl}
                 data-analytics-source={page.source}
                 data-analytics-target={`${page.slug}_hero_cta`}
+                data-analytics-metadata={metadataJson(
+                  createCommercialIntentMetadata(page, "commercial_hero")
+                )}
               >
                 {page.cta}
                 <ArrowRight size={18} />
@@ -176,6 +187,9 @@ export function CommercialPageView({ slug }: { slug: CommercialPage["slug"] }) {
               href={botUrl}
               data-analytics-source={page.source}
               data-analytics-target={`${page.slug}_booking_card`}
+              data-analytics-metadata={metadataJson(
+                createCommercialIntentMetadata(page, "commercial_booking_card")
+              )}
             >
               Проверить время
               <CalendarDays size={18} />
@@ -191,7 +205,7 @@ export function CommercialPageView({ slug }: { slug: CommercialPage["slug"] }) {
             <h2 id="commercial-routes-title">Что можно выбрать сейчас</h2>
           </div>
           <p>
-            Цены и часы на карточках - ориентир для быстрого выбора. Итоговые
+            Цены и время на карточках - ориентир для быстрого выбора. Итоговые
             условия подтверждаются менеджером после заявки.
           </p>
         </div>
@@ -265,6 +279,9 @@ export function CommercialPageView({ slug }: { slug: CommercialPage["slug"] }) {
             href={botUrl}
             data-analytics-source={page.source}
             data-analytics-target={`${page.slug}_footer_cta`}
+            data-analytics-metadata={metadataJson(
+              createCommercialIntentMetadata(page, "commercial_footer")
+            )}
           >
             {siteCopy.telegramHandle}
           </a>

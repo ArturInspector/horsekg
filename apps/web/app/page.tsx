@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  CalendarDays,
   CheckCircle2,
   Clock3,
   Image as ImageIcon,
@@ -10,6 +9,8 @@ import {
   ShieldCheck,
   UsersRound
 } from "lucide-react";
+import { BookingIntentPicker } from "./booking-intent-picker";
+import { MobileBookingBar } from "./mobile-booking-bar";
 import { featuredBlogPosts } from "../content/blog";
 import {
   commercialPages,
@@ -17,6 +18,7 @@ import {
   siteCopy,
   structuredData
 } from "../content/landing";
+import { createRouteIntentMetadata, metadataJson } from "../lib/booking-intent";
 
 const conditionIcons = [ShieldCheck, UsersRound, MessageCircle, ImageIcon];
 
@@ -43,40 +45,6 @@ function Header() {
         Telegram
       </a>
     </header>
-  );
-}
-
-function BookingPanel() {
-  return (
-    <aside className="bookingPanel" aria-label={siteCopy.bookingPanel.title}>
-      <div className="bookingPanelTop">
-        <p>{siteCopy.bookingPanel.title}</p>
-        <strong>{siteCopy.bookingPanel.price}</strong>
-      </div>
-      <div className="bookingFields">
-        {siteCopy.bookingPanel.fields.map((field) => (
-          <div className="bookingField" key={field.label}>
-            <span>{field.label}</span>
-            <strong>{field.value}</strong>
-            <div className="choiceRow" aria-label={field.label}>
-              {field.options.map((option) => (
-                <span key={option}>{option}</span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      <a
-        className="v2Button dark full"
-        href={siteCopy.botUrls.booking}
-        data-analytics-source={siteCopy.bookingPanel.source}
-        data-analytics-target="quick_booking"
-      >
-        {siteCopy.bookingPanel.cta}
-        <CalendarDays size={18} />
-      </a>
-      <p className="bookingNote">{siteCopy.bookingPanel.note}</p>
-    </aside>
   );
 }
 
@@ -160,7 +128,13 @@ export default function Home() {
               </div>
             </div>
 
-            <BookingPanel />
+            <BookingIntentPicker
+              analyticsSource={siteCopy.bookingPanel.source}
+              analyticsTarget="quick_booking"
+              ctaLabel={siteCopy.bookingPanel.cta}
+              href={siteCopy.botUrls.booking}
+              surface="home_hero_picker"
+            />
           </div>
         </section>
 
@@ -199,7 +173,7 @@ export default function Home() {
                   </ul>
                   <p>{route.description}</p>
                   <div className="timeRow" aria-label="Ближайшее время">
-                    <span>Время:</span>
+                    <span>Ориентир:</span>
                     {route.nearestTimes.map((time) => (
                       <b key={time}>{time}</b>
                     ))}
@@ -211,6 +185,9 @@ export default function Home() {
                       href={siteCopy.botUrls.routes}
                       data-analytics-source={siteCopy.routesSection.source}
                       data-analytics-target={route.analyticsTarget}
+                      data-analytics-metadata={metadataJson(
+                        createRouteIntentMetadata(route, "home_route_card")
+                      )}
                     >
                       {siteCopy.routesSection.choosePrefix}
                     </a>
@@ -389,16 +366,11 @@ export default function Home() {
 
         <Footer />
 
-        <div className="mobileBookingBar">
-          <span>от 1 500 сом • 1-2 часа</span>
-          <a
-            href={siteCopy.botUrls.home}
-            data-analytics-source="seo_mobile_sticky"
-            data-analytics-target="mobile_sticky_cta"
-          >
-            Записаться
-          </a>
-        </div>
+        <MobileBookingBar
+          analyticsSource="seo_mobile_sticky"
+          analyticsTarget="mobile_sticky_cta"
+          href={siteCopy.botUrls.home}
+        />
       </main>
     </>
   );
