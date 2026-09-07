@@ -26,7 +26,7 @@ The app reads source photos from `../../public/assets/landing/source-pending` du
 
 ## Environment
 
-- `NEXT_PUBLIC_SITE_URL`: canonical public URL for metadata, sitemap and robots. Current production is `https://web-production-c05e3.up.railway.app`.
+- `NEXT_PUBLIC_SITE_URL`: canonical public URL for metadata, sitemap and robots. Production canonical URL is `https://ride.kg`.
 - `NEXT_PUBLIC_API_URL`: public API URL used by landing analytics.
 
 In local development, analytics is disabled when `NEXT_PUBLIC_API_URL` is not
