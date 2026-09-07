@@ -97,7 +97,13 @@ function getAttribution(fallbackSource?: string) {
 }
 
 function sendEvent(event: AnalyticsEvent) {
-  fetch(analyticsEndpoint(), {
+  const endpoint = analyticsEndpoint();
+
+  if (!endpoint) {
+    return;
+  }
+
+  fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -108,11 +114,17 @@ function sendEvent(event: AnalyticsEvent) {
 }
 
 async function createTelegramClick(event: Omit<AnalyticsEvent, "type">) {
+  const endpoint = analyticsClickEndpoint();
+
+  if (!endpoint) {
+    return undefined;
+  }
+
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), 1500);
 
   try {
-    const response = await fetch(analyticsClickEndpoint(), {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -139,11 +151,27 @@ function withTelegramStart(href: string, start: string) {
   return url.toString();
 }
 
+function fallbackSourceFromPath(pathname: string) {
+  if (pathname.startsWith("/blog")) {
+    return "seo_blog";
+  }
+
+  if (pathname.startsWith("/routes")) {
+    return "seo_routes";
+  }
+
+  return "seo_home";
+}
+
 export function AnalyticsTracker() {
   useEffect(() => {
+    if (window.location.pathname.startsWith("/admin")) {
+      return;
+    }
+
     const sessionId = getSessionId();
     const pagePath = `${window.location.pathname}${window.location.search}`;
-    const pageAttribution = getAttribution("seo_home");
+    const pageAttribution = getAttribution(fallbackSourceFromPath(window.location.pathname));
 
     sendEvent({
       type: "PAGE_VIEW",

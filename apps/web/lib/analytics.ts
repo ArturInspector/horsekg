@@ -1,4 +1,7 @@
-const fallbackApiUrl = "https://api-production-a8255.up.railway.app";
+const fallbackApiUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api-production-a8255.up.railway.app"
+    : undefined;
 
 export const analyticsSessionKey = "horsesharing.analytics.session";
 export const analyticsAttributionKey = "horsesharing.analytics.attribution";
@@ -30,17 +33,24 @@ export type AnalyticsEvent = MarketingAttribution & {
   metadata?: Record<string, unknown>;
 };
 
-export function analyticsEndpoint() {
+function analyticsUrl(path: string) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? fallbackApiUrl;
-  return `${apiUrl.replace(/\/$/, "")}/api/analytics/events`;
+
+  if (!apiUrl) {
+    return undefined;
+  }
+
+  return `${apiUrl.replace(/\/$/, "")}${path}`;
+}
+
+export function analyticsEndpoint() {
+  return analyticsUrl("/api/analytics/events");
 }
 
 export function analyticsClickEndpoint() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? fallbackApiUrl;
-  return `${apiUrl.replace(/\/$/, "")}/api/analytics/clicks`;
+  return analyticsUrl("/api/analytics/clicks");
 }
 
 export function analyticsSummaryEndpoint() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? fallbackApiUrl;
-  return `${apiUrl.replace(/\/$/, "")}/api/analytics/summary`;
+  return analyticsUrl("/api/analytics/summary");
 }

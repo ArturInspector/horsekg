@@ -35,12 +35,21 @@
 
 1. Привязать нормальный домен и обновить `NEXT_PUBLIC_SITE_URL` в Railway service `web`.
 2. Подключить Google Search Console и отправить `sitemap.xml`.
-3. Добавить 2-3 отдельные посадочные:
+3. Держать маршрутные посадочные в индексе:
    - `/routes/chunkurchak-horse-riding`
+   - `/routes/chunkurchak-mountain-route`
    - `/routes/alamedin-horse-riding`
-   - `/prices`
-4. Добавить реальные страницы организаторов: Instagram, 2GIS, телефон, фото, условия отмены.
-5. После первых броней добавить подтвержденные отзывы без накрутки и без schema markup, если источник не проверен.
+4. Развивать блог под реальные вопросы:
+   - `/blog/gde-pokatatsya-na-loshadyah-v-bishkeke`
+   - `/blog/horse-riding-bishkek-for-tourists`
+   - `/blog/pervaya-progulka-na-loshadi-bishkek`
+   - `/blog/chunkurchak-horse-riding`
+   - `/blog/alamedin-horse-riding`
+   - `/blog/chto-nadet-na-konnuyu-progulku`
+   - `/blog/konnye-progulki-dlya-detej-bishkek`
+   - `/blog/instagram-loshadi-bishkek`
+5. Добавить реальные страницы организаторов: Instagram, 2GIS, телефон, фото, условия отмены.
+6. После первых броней добавить подтвержденные отзывы без накрутки и без schema markup, если источник не проверен.
 
 ## Tracking
 

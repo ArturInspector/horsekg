@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteCopy } from "../content/landing";
+import { AnalyticsTracker } from "./analytics-tracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     siteName: siteCopy.metadata.siteName,
     images: [
       {
-        url: siteCopy.hero.image,
+        url: siteCopy.hero.gallery[0].src,
         width: 1080,
         height: 808,
         alt: siteCopy.routes[0].alt
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteCopy.metadata.openGraphTitle,
     description: siteCopy.metadata.openGraphDescription,
-    images: [siteCopy.hero.image]
+    images: [siteCopy.hero.gallery[0].src]
   }
 };
 
@@ -40,7 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body>{children}</body>
+      <body>
+        <AnalyticsTracker />
+        {children}
+      </body>
     </html>
   );
 }

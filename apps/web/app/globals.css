@@ -777,3 +777,890 @@ h3 {
     text-align: left;
   }
 }
+
+.marketingPage {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, #fbfcf7 0, #f4f7ef 520px, #ffffff 100%);
+  color: var(--ink);
+}
+
+.marketingPage h1,
+.marketingPage h2,
+.marketingPage h3,
+.marketingPage p {
+  margin-top: 0;
+}
+
+.marketingPage h1 {
+  max-width: 740px;
+  margin-bottom: 22px;
+  font-size: 64px;
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.marketingPage h2 {
+  margin-bottom: 16px;
+  font-size: 44px;
+  line-height: 1.06;
+  letter-spacing: 0;
+}
+
+.marketingPage h3 {
+  font-size: 21px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.v2Header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 18px 0;
+  backdrop-filter: blur(16px);
+}
+
+.v2Brand {
+  color: var(--green-dark);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.v2Nav {
+  display: flex;
+  gap: 22px;
+  color: #43534b;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.iconButton {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--green-dark);
+  box-shadow: 0 8px 22px rgba(23, 33, 28, 0.08);
+}
+
+.v2Hero {
+  padding: 36px 0 26px;
+}
+
+.v2HeroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.05fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.v2HeroCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 520px;
+}
+
+.v2Eyebrow {
+  margin-bottom: 12px;
+  color: var(--coral);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.v2Lead {
+  max-width: 640px;
+  margin-bottom: 16px;
+  color: #34443b;
+  font-size: 21px;
+  line-height: 1.48;
+}
+
+.v2SeoLine,
+.v2BodyText,
+.v2SectionHeader > p,
+.bookingNote,
+.routeTileBody p,
+.processSteps p,
+.conditionList p,
+.proofLine p,
+.blogTeaser p,
+.blogIndexCard p,
+.articleBody p,
+.articleCta p,
+.routePricePanel p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.v2SeoLine {
+  max-width: 560px;
+}
+
+.v2HeroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.v2Button {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 13px 18px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.v2Button.primary {
+  background: var(--coral);
+  color: var(--white);
+}
+
+.v2Button.dark {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.v2Button.quiet {
+  border-color: #cfd8d1;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--green-dark);
+}
+
+.v2Button.quietBorder {
+  border-color: var(--line);
+  background: var(--white);
+  color: var(--green-dark);
+}
+
+.v2Button.full {
+  width: 100%;
+}
+
+.v2Button.small {
+  min-height: 42px;
+  padding: 11px 14px;
+}
+
+.v2Gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(150px, 0.62fr);
+  gap: 8px;
+  min-height: 520px;
+}
+
+.v2Gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v2GalleryMain {
+  border-radius: 8px 0 0 8px;
+}
+
+.v2GallerySide {
+  display: grid;
+  gap: 8px;
+}
+
+.v2GallerySide img:first-child {
+  border-radius: 0 8px 0 0;
+}
+
+.v2GallerySide img:last-child {
+  border-radius: 0 0 8px 0;
+}
+
+.bookingPanel {
+  grid-column: 2;
+  width: min(410px, 100%);
+  margin: -176px 24px 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.bookingPanelTop {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.bookingPanelTop p,
+.bookingPanelTop strong {
+  margin: 0;
+}
+
+.bookingPanelTop p {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.bookingPanelTop strong {
+  color: var(--ink);
+  font-size: 23px;
+  line-height: 1.1;
+  text-align: right;
+}
+
+.bookingFields {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.bookingField {
+  border: 1px solid #e6ece6;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.bookingField > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.bookingField > strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.choiceRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.choiceRow span {
+  border: 1px solid #dfe8df;
+  border-radius: 999px;
+  padding: 7px 9px;
+  background: #f8faf7;
+  color: #43534b;
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.bookingNote {
+  margin: 14px 0 0;
+}
+
+.factRail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 28px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--line);
+}
+
+.factRail div {
+  padding: 20px;
+  background: var(--white);
+}
+
+.factRail dt {
+  color: var(--green-dark);
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.factRail dd {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.v2Section {
+  padding: 82px 0;
+}
+
+.v2SectionHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.64fr);
+  gap: 56px;
+  align-items: end;
+  margin-bottom: 30px;
+}
+
+.routeShelf,
+.blogTeaserGrid,
+.blogIndexGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.routeTile,
+.blogTeaser,
+.blogIndexCard,
+.featuredPost {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 14px 34px rgba(23, 33, 28, 0.08);
+}
+
+.routeImageLink {
+  display: block;
+}
+
+.routeTile img,
+.blogTeaser img,
+.blogIndexCard img,
+.featuredPost img {
+  width: 100%;
+  aspect-ratio: 1.28;
+  object-fit: cover;
+}
+
+.routeTileBody,
+.blogTeaser > div,
+.blogIndexCard > div,
+.featuredPost > div {
+  padding: 20px;
+}
+
+.routeMetaLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 13px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.routeMetaLine span,
+.textLink,
+.marketingPage .locationLinks a,
+.articleMeta span,
+.routePageFacts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.miniFacts,
+.routePageFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.miniFacts li,
+.routePageFacts li {
+  border-radius: 999px;
+  background: #eef4f0;
+  padding: 8px 10px;
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.routeActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.textLink {
+  color: var(--green-dark);
+  font-weight: 900;
+}
+
+.mutedBand {
+  background: #eef4f0;
+}
+
+.processGrid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.46fr) minmax(0, 1fr);
+  gap: 40px;
+}
+
+.processSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.processSteps article {
+  min-height: 210px;
+  border: 1px solid #d8e4da;
+  border-radius: 8px;
+  background: var(--white);
+  padding: 22px;
+}
+
+.processSteps span {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: var(--green-dark);
+  color: var(--white);
+  font-weight: 900;
+}
+
+.conditionsGrid,
+.mapGrid,
+.blogHeroGrid,
+.articleHeroGrid,
+.routePageGrid,
+.routeDetailsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.72fr);
+  gap: 50px;
+  align-items: center;
+}
+
+.conditionList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.conditionList article {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 18px;
+}
+
+.conditionList svg,
+.faqV2Grid svg,
+.articleFaq svg,
+.routeHighlightList svg {
+  color: var(--green);
+}
+
+.conditionList h3,
+.conditionList p {
+  margin-bottom: 0;
+}
+
+.conditionsGrid > img,
+.mapGrid > img,
+.articleHeroGrid > img,
+.routePageGrid > img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  object-fit: cover;
+}
+
+.conditionsGrid > img,
+.mapGrid > img {
+  aspect-ratio: 1.05;
+}
+
+.mapBand {
+  background: #f6f0e7;
+}
+
+.marketingPage .locationLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.marketingPage .locationLinks a {
+  border: 1px solid #d8cdbb;
+  border-radius: 8px;
+  background: var(--white);
+  padding: 12px 14px;
+  color: var(--green-dark);
+  font-weight: 900;
+}
+
+.v2Proof {
+  background: #123f35;
+  color: var(--white);
+  padding: 44px 0;
+}
+
+.proofLine {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.proofLine svg {
+  color: #ffc15a;
+}
+
+.proofLine h2 {
+  margin-bottom: 8px;
+  font-size: 31px;
+}
+
+.proofLine p {
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.blogTeaser span,
+.blogIndexCard span,
+.featuredPost span {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--coral);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.centeredAction {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.faqV2 {
+  background: #fbfcf7;
+}
+
+.faqV2Grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.faqV2Grid article {
+  min-height: 190px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 22px;
+}
+
+.blogHero,
+.articleHero,
+.routePageHero {
+  padding: 52px 0 38px;
+}
+
+.blogHeroGrid {
+  align-items: stretch;
+}
+
+.featuredPost {
+  display: grid;
+  min-height: 100%;
+  color: inherit;
+}
+
+.featuredPost h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.blogIndexGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.articleHeroGrid > img,
+.routePageGrid > img {
+  aspect-ratio: 1.16;
+}
+
+.articleMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.articleLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(280px, 360px);
+  gap: 56px;
+  align-items: start;
+  padding: 48px 0 90px;
+}
+
+.articleBody section + section {
+  margin-top: 44px;
+}
+
+.articleBody h2 {
+  font-size: 31px;
+}
+
+.articleBody p {
+  font-size: 18px;
+}
+
+.articleFaq {
+  border-top: 1px solid var(--line);
+  padding-top: 34px;
+}
+
+.articleFaq article {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.articleFaq h3,
+.articleFaq p {
+  margin-bottom: 0;
+}
+
+.articleCta,
+.routePricePanel {
+  position: sticky;
+  top: 90px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 22px;
+  box-shadow: 0 12px 34px rgba(23, 33, 28, 0.08);
+}
+
+.articleCta strong,
+.routePricePanel strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 24px;
+  line-height: 1.12;
+}
+
+.routeDetailsGrid {
+  align-items: start;
+}
+
+.routeHighlightList {
+  display: grid;
+  gap: 12px;
+}
+
+.routeHighlightList article {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 16px;
+  font-weight: 850;
+}
+
+.routePricePanel span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.routePricePanel strong {
+  color: var(--green-dark);
+  font-size: 30px;
+}
+
+@media (max-width: 1060px) {
+  .marketingPage h1 {
+    font-size: 56px;
+  }
+
+  .v2HeroGrid,
+  .conditionsGrid,
+  .mapGrid,
+  .blogHeroGrid,
+  .articleHeroGrid,
+  .routePageGrid,
+  .routeDetailsGrid,
+  .articleLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .v2HeroCopy,
+  .v2Gallery {
+    min-height: auto;
+  }
+
+  .v2Gallery {
+    min-height: 420px;
+  }
+
+  .bookingPanel {
+    grid-column: auto;
+    width: 100%;
+    margin: 0;
+  }
+
+  .articleCta,
+  .routePricePanel {
+    position: static;
+  }
+
+  .processGrid,
+  .v2SectionHeader {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .marketingPage h1 {
+    font-size: 38px;
+    line-height: 1.02;
+  }
+
+  .marketingPage h2 {
+    font-size: 32px;
+  }
+
+  .v2Header {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .v2Nav {
+    display: none;
+  }
+
+  .v2Hero,
+  .blogHero,
+  .articleHero,
+  .routePageHero {
+    padding-top: 28px;
+  }
+
+  .v2HeroGrid {
+    gap: 20px;
+  }
+
+  .v2HeroCopy {
+    order: 1;
+  }
+
+  .bookingPanel {
+    order: 2;
+  }
+
+  .bookingPanelTop {
+    display: grid;
+    gap: 6px;
+  }
+
+  .bookingPanelTop strong {
+    text-align: left;
+  }
+
+  .v2Gallery {
+    order: 3;
+  }
+
+  .v2Gallery {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .v2GalleryMain,
+  .v2GallerySide img:first-child,
+  .v2GallerySide img:last-child {
+    border-radius: 8px;
+  }
+
+  .v2GalleryMain {
+    aspect-ratio: 1.12;
+  }
+
+  .v2GallerySide {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v2GallerySide img {
+    aspect-ratio: 1.3;
+  }
+
+  .factRail,
+  .routeShelf,
+  .processSteps,
+  .conditionList,
+  .blogTeaserGrid,
+  .blogIndexGrid,
+  .faqV2Grid {
+    grid-template-columns: 1fr;
+  }
+
+  .v2Section {
+    padding: 58px 0;
+  }
+
+  .proofLine {
+    grid-template-columns: 1fr;
+  }
+
+  .v2HeroActions,
+  .routeActions,
+  .centeredAction {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .v2Button {
+    width: 100%;
+  }
+
+  .articleLayout {
+    padding-bottom: 62px;
+  }
+}

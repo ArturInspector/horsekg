@@ -151,7 +151,14 @@ export function AnalyticsAdmin() {
     setError(null);
 
     try {
-      const url = new URL(analyticsSummaryEndpoint());
+      const endpoint = analyticsSummaryEndpoint();
+
+      if (!endpoint) {
+        setError("API отчета не настроен. Проверь NEXT_PUBLIC_API_URL.");
+        return;
+      }
+
+      const url = new URL(endpoint);
       url.searchParams.set("from", from);
       url.searchParams.set("to", to);
 

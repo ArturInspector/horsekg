@@ -1,14 +1,36 @@
 import type { MetadataRoute } from "next";
+import { blogPosts } from "../content/blog";
+import { siteCopy } from "../content/landing";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://horsekg.kg";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date();
+
   return [
     {
       url: siteUrl,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "weekly",
       priority: 1
-    }
+    },
+    {
+      url: `${siteUrl}/blog`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8
+    },
+    ...siteCopy.routes.map((route) => ({
+      url: `${siteUrl}/routes/${route.slug}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.9
+    })),
+    ...blogPosts.map((post) => ({
+      url: `${siteUrl}/blog/${post.slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7
+    }))
   ];
 }
