@@ -7,7 +7,7 @@ export function telegramStart(source: string) {
 }
 
 export const siteCopy = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ride.kg",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://web-production-c05e3.up.railway.app",
   botUrls: {
     home: telegramStart("seo_home"),
     booking: telegramStart("seo_booking"),
@@ -20,7 +20,7 @@ export const siteCopy = {
     blog: telegramStart("seo_blog")
   },
   brand: "HorseSharing",
-  domain: "ride.kg",
+  domain: "web-production-c05e3.up.railway.app",
   telegramHandle: "@horsekgbot",
   navigationLabel: "Главная навигация",
   brandAriaLabel: "HorseSharing Бишкек",
