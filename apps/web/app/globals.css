@@ -1700,12 +1700,15 @@ h3 {
 }
 
 .v2Hero {
-  padding: 28px 0 24px;
+  padding: 28px 0 42px;
 }
 
 .v2HeroGrid {
-  grid-template-columns: minmax(0, 0.82fr) minmax(430px, 1fr);
-  gap: 22px;
+  grid-template-columns:
+    minmax(420px, 0.98fr)
+    minmax(230px, 0.55fr)
+    minmax(350px, 0.8fr);
+  gap: 18px;
   align-items: start;
 }
 
@@ -1755,11 +1758,39 @@ h3 {
 }
 
 .v2Gallery {
-  min-height: 500px;
+  grid-template-columns: 1fr;
+  min-height: 0;
 }
 
 .bookingPanel {
-  margin-top: -128px;
+  grid-column: auto;
+  width: 100%;
+  margin: 0;
+}
+
+.bookingFields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bookingField {
+  padding: 12px;
+}
+
+.v2GalleryMain {
+  aspect-ratio: 0.86;
+  border-radius: 8px;
+}
+
+.v2GallerySide {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.v2GallerySide img,
+.v2GallerySide img:first-child,
+.v2GallerySide img:last-child {
+  aspect-ratio: 1.08;
+  border-radius: 8px;
 }
 
 .bookingField {
@@ -2308,6 +2339,7 @@ h3 {
   }
 
   .bookingFields {
+    grid-template-columns: 1fr;
     gap: 9px;
   }
 

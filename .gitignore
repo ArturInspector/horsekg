@@ -8,4 +8,6 @@ public/assets/landing/source-pending/tmp/
 nimbalyst-local/
 apps/web/.next/
 apps/web/node_modules/
+apps/web/playwright-report/
+apps/web/test-results/
 apps/web/tsconfig.tsbuildinfo
