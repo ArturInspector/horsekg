@@ -3,17 +3,110 @@ import {
   CalendarDays,
   CheckCircle2,
   Clock3,
+  Image as ImageIcon,
   Info,
   MapPin,
   MessageCircle,
   ShieldCheck,
-  Star,
   UsersRound
 } from "lucide-react";
 import { featuredBlogPosts } from "../content/blog";
-import { jsonLdString, siteCopy, structuredData } from "../content/landing";
+import {
+  commercialPages,
+  jsonLdString,
+  siteCopy,
+  structuredData
+} from "../content/landing";
 
-const conditionIcons = [ShieldCheck, UsersRound, MessageCircle, Info];
+const conditionIcons = [ShieldCheck, UsersRound, MessageCircle, ImageIcon];
+
+function Header() {
+  return (
+    <header className="v2Header">
+      <a className="v2Brand" href="/" aria-label={siteCopy.brandAriaLabel}>
+        {siteCopy.brand}
+      </a>
+      <nav className="v2Nav" aria-label={siteCopy.navigationLabel}>
+        {siteCopy.nav.map((item) => (
+          <a href={item.href} key={item.href}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+      <a
+        className="headerCta"
+        href={siteCopy.botUrls.home}
+        data-analytics-source={siteCopy.hero.primarySource}
+        data-analytics-target="header_cta"
+      >
+        <MessageCircle size={18} />
+        Telegram
+      </a>
+    </header>
+  );
+}
+
+function BookingPanel() {
+  return (
+    <aside className="bookingPanel" aria-label={siteCopy.bookingPanel.title}>
+      <div className="bookingPanelTop">
+        <p>{siteCopy.bookingPanel.title}</p>
+        <strong>{siteCopy.bookingPanel.price}</strong>
+      </div>
+      <div className="bookingFields">
+        {siteCopy.bookingPanel.fields.map((field) => (
+          <div className="bookingField" key={field.label}>
+            <span>{field.label}</span>
+            <strong>{field.value}</strong>
+            <div className="choiceRow" aria-label={field.label}>
+              {field.options.map((option) => (
+                <span key={option}>{option}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <a
+        className="v2Button dark full"
+        href={siteCopy.botUrls.booking}
+        data-analytics-source={siteCopy.bookingPanel.source}
+        data-analytics-target="quick_booking"
+      >
+        {siteCopy.bookingPanel.cta}
+        <CalendarDays size={18} />
+      </a>
+      <p className="bookingNote">{siteCopy.bookingPanel.note}</p>
+    </aside>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="siteFooter">
+      <div className="container footerGrid">
+        <div>
+          <strong>{siteCopy.domain}</strong>
+          <p>{siteCopy.footer.text}</p>
+        </div>
+        <nav aria-label="Нижняя навигация">
+          {siteCopy.footer.links.map((link) => (
+            <a href={link.href} key={link.href}>
+              {link.label}
+            </a>
+          ))}
+        </nav>
+        <a
+          className="v2Button primary"
+          href={siteCopy.botUrls.home}
+          data-analytics-source="seo_footer"
+          data-analytics-target="footer_cta"
+        >
+          {siteCopy.telegramHandle}
+        </a>
+      </div>
+    </footer>
+  );
+}
 
 export default function Home() {
   const [mainImage, ...secondaryImages] = siteCopy.hero.gallery;
@@ -25,27 +118,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: jsonLdString(structuredData) }}
       />
       <main className="marketingPage">
-        <header className="v2Header">
-          <a className="v2Brand" href="/" aria-label={siteCopy.brandAriaLabel}>
-            {siteCopy.brand}
-          </a>
-          <nav className="v2Nav" aria-label={siteCopy.navigationLabel}>
-            {siteCopy.nav.map((item) => (
-              <a href={item.href} key={item.href}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
-          <a
-            className="iconButton"
-            href={siteCopy.botUrls.home}
-            data-analytics-source={siteCopy.hero.primarySource}
-            data-analytics-target="header_cta"
-            aria-label={siteCopy.hero.primaryCta}
-          >
-            <MessageCircle size={19} />
-          </a>
-        </header>
+        <Header />
 
         <section className="v2Hero" aria-labelledby="hero-title">
           <div className="container v2HeroGrid">
@@ -53,6 +126,14 @@ export default function Home() {
               <p className="v2Eyebrow">{siteCopy.hero.eyebrow}</p>
               <h1 id="hero-title">{siteCopy.hero.title}</h1>
               <p className="v2Lead">{siteCopy.hero.text}</p>
+              <dl className="heroFactGrid" aria-label={siteCopy.hero.factsLabel}>
+                {siteCopy.hero.facts.map((item) => (
+                  <div key={item.value}>
+                    <dt>{item.value}</dt>
+                    <dd>{item.label}</dd>
+                  </div>
+                ))}
+              </dl>
               <div className="v2HeroActions">
                 <a
                   className="v2Button primary"
@@ -63,10 +144,11 @@ export default function Home() {
                   {siteCopy.hero.primaryCta}
                   <ArrowRight size={18} />
                 </a>
-                <a className="v2Button quiet" href="#routes">
+                <a className="v2Button quiet" href="/routes">
                   {siteCopy.hero.secondaryCta}
                 </a>
               </div>
+              <p className="heroNote">{siteCopy.hero.note}</p>
             </div>
 
             <div className="v2Gallery" aria-label="Фото конных прогулок">
@@ -78,48 +160,11 @@ export default function Home() {
               </div>
             </div>
 
-            <aside className="bookingPanel" aria-label={siteCopy.bookingPanel.title}>
-              <div className="bookingPanelTop">
-                <p>{siteCopy.bookingPanel.title}</p>
-                <strong>{siteCopy.bookingPanel.price}</strong>
-              </div>
-              <div className="bookingFields">
-                {siteCopy.bookingPanel.fields.map((field) => (
-                  <div className="bookingField" key={field.label}>
-                    <span>{field.label}</span>
-                    <strong>{field.value}</strong>
-                    <div className="choiceRow" aria-label={field.label}>
-                      {field.options.map((option) => (
-                        <span key={option}>{option}</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <a
-                className="v2Button dark full"
-                href={siteCopy.botUrls.booking}
-                data-analytics-source={siteCopy.bookingPanel.source}
-                data-analytics-target="quick_booking"
-              >
-                {siteCopy.bookingPanel.cta}
-                <CalendarDays size={18} />
-              </a>
-              <p className="bookingNote">{siteCopy.bookingPanel.note}</p>
-            </aside>
+            <BookingPanel />
           </div>
-
-          <dl className="container factRail" aria-label={siteCopy.hero.factsLabel}>
-            {siteCopy.hero.facts.map((item) => (
-              <div key={item.value}>
-                <dt>{item.value}</dt>
-                <dd>{item.label}</dd>
-              </div>
-            ))}
-          </dl>
         </section>
 
-        <section className="v2Section" id="routes" aria-labelledby="routes-title">
+        <section className="v2Section tightTop" id="routes" aria-labelledby="routes-title">
           <div className="container v2SectionHeader">
             <div>
               <p className="v2Eyebrow">{siteCopy.routesSection.eyebrow}</p>
@@ -135,23 +180,31 @@ export default function Home() {
                   <img src={route.image} alt={route.alt} />
                 </a>
                 <div className="routeTileBody">
-                  <div className="routeMetaLine">
-                    <span>
-                      <MapPin size={15} />
-                      {route.area}
-                    </span>
-                    <span>
-                      <Clock3 size={15} />
-                      {route.duration}
-                    </span>
-                  </div>
+                  <p className="routeKicker">{route.locationLine}</p>
                   <h3>{route.title}</h3>
-                  <p>{route.description}</p>
+                  <strong className="routePrice">{route.price}</strong>
                   <ul className="miniFacts">
-                    <li>{route.price}</li>
-                    <li>{route.groupSize}</li>
-                    <li>{route.level}</li>
+                    <li>
+                      <Clock3 size={14} />
+                      {route.duration}
+                    </li>
+                    <li>
+                      <UsersRound size={14} />
+                      {route.groupSize}
+                    </li>
+                    <li>
+                      <CheckCircle2 size={14} />
+                      {route.level}
+                    </li>
                   </ul>
+                  <p>{route.description}</p>
+                  <div className="timeRow" aria-label="Ближайшее время">
+                    <span>Время:</span>
+                    {route.nearestTimes.map((time) => (
+                      <b key={time}>{time}</b>
+                    ))}
+                  </div>
+                  <small>{route.caution}</small>
                   <div className="routeActions">
                     <a
                       className="v2Button small primary"
@@ -170,6 +223,7 @@ export default function Home() {
               </article>
             ))}
           </div>
+          <p className="container sectionNote">{siteCopy.routesSection.note}</p>
         </section>
 
         <section className="v2Section mutedBand" id="how" aria-labelledby="how-title">
@@ -177,6 +231,7 @@ export default function Home() {
             <div>
               <p className="v2Eyebrow">{siteCopy.howItWorks.eyebrow}</p>
               <h2 id="how-title">{siteCopy.howItWorks.title}</h2>
+              <p className="v2BodyText">{siteCopy.howItWorks.note}</p>
             </div>
             <div className="processSteps">
               {siteCopy.howItWorks.steps.map((step, index) => (
@@ -198,7 +253,7 @@ export default function Home() {
               <p className="v2BodyText">{siteCopy.conditions.text}</p>
               <div className="conditionList">
                 {siteCopy.conditions.items.map((item, index) => {
-                  const Icon = conditionIcons[index] ?? CheckCircle2;
+                  const Icon = conditionIcons[index] ?? Info;
 
                   return (
                     <article key={item.title}>
@@ -213,6 +268,33 @@ export default function Home() {
               </div>
             </div>
             <img src={siteCopy.conditions.image} alt={siteCopy.conditions.imageAlt} />
+          </div>
+        </section>
+
+        <section className="v2Section commercialBand" aria-labelledby="seo-pages-title">
+          <div className="container v2SectionHeader">
+            <div>
+              <p className="v2Eyebrow">Выбор по сценарию</p>
+              <h2 id="seo-pages-title">Быстрые страницы под спрос</h2>
+            </div>
+            <p>
+              Отдельные входы для цены, новичков, детей и Instagram не уводят от
+              бронирования: каждая страница ведет к маршрутам и Telegram.
+            </p>
+          </div>
+          <div className="container seoCardGrid">
+            {commercialPages
+              .filter((page) => page.slug !== "routes")
+              .map((page) => (
+                <a className="seoCard" href={page.path} key={page.slug}>
+                  <span>{page.h1}</span>
+                  <p>{page.lead}</p>
+                  <b>
+                    Открыть
+                    <ArrowRight size={15} />
+                  </b>
+                </a>
+              ))}
           </div>
         </section>
 
@@ -237,7 +319,7 @@ export default function Home() {
 
         <section className="v2Proof" aria-labelledby="proof-title">
           <div className="container proofLine">
-            <Star size={22} />
+            <ShieldCheck size={24} />
             <div>
               <h2 id="proof-title">{siteCopy.proof.title}</h2>
               <p>{siteCopy.proof.text}</p>
@@ -273,6 +355,10 @@ export default function Home() {
                     <a href={`/blog/${post.slug}`}>{post.title}</a>
                   </h3>
                   <p>{post.description}</p>
+                  <a className="textLink" href={`/blog/${post.slug}`}>
+                    Читать
+                    <ArrowRight size={16} />
+                  </a>
                 </div>
               </article>
             ))}
@@ -300,6 +386,19 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <Footer />
+
+        <div className="mobileBookingBar">
+          <span>от 1 500 сом • 1-2 часа</span>
+          <a
+            href={siteCopy.botUrls.home}
+            data-analytics-source="seo_mobile_sticky"
+            data-analytics-target="mobile_sticky_cta"
+          >
+            Записаться
+          </a>
+        </div>
       </main>
     </>
   );

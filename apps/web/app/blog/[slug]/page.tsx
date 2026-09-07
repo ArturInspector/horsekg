@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, CheckCircle2, MessageCircle } from "lucide-react";
 import { blogPosts, getBlogPost } from "../../../content/blog";
-import { jsonLdString, siteCopy } from "../../../content/landing";
+import { commercialPages, jsonLdString, siteCopy } from "../../../content/landing";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -144,6 +144,16 @@ export default async function BlogPostPage({ params }: Props) {
                 </article>
               ))}
             </section>
+
+            <section className="articleInternalLinks" aria-labelledby="article-links-title">
+              <h2 id="article-links-title">Перейти к выбору</h2>
+              <div>
+                <a href="/routes">Маршруты конных прогулок</a>
+                <a href="/prices">Цены на прогулки</a>
+                <a href="/for-beginners">Маршруты для новичков</a>
+                <a href="/with-kids">Прогулки с детьми</a>
+              </div>
+            </section>
           </div>
 
           <aside className="articleCta">
@@ -161,6 +171,24 @@ export default async function BlogPostPage({ params }: Props) {
               Спросить в Telegram
               <ArrowRight size={18} />
             </a>
+            <div className="articleCtaLinks">
+              {siteCopy.routes.slice(0, 2).map((route) => (
+                <a href={`/routes/${route.slug}`} key={route.slug}>
+                  {route.shortTitle}
+                  <span>
+                    {route.price} • {route.duration}
+                  </span>
+                </a>
+              ))}
+              {commercialPages
+                .filter((page) => page.slug === "prices" || page.slug === "instagram")
+                .map((page) => (
+                  <a href={page.path} key={page.slug}>
+                    {page.h1}
+                    <span>{page.cta}</span>
+                  </a>
+                ))}
+            </div>
           </aside>
         </div>
       </article>

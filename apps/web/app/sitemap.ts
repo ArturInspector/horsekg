@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "../content/blog";
-import { siteCopy } from "../content/landing";
+import { commercialPages, siteCopy } from "../content/landing";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ride.kg";
 
@@ -20,6 +20,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8
     },
+    ...commercialPages.map((page) => ({
+      url: `${siteUrl}${page.path}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: page.slug === "routes" ? 0.95 : 0.85
+    })),
     ...siteCopy.routes.map((route) => ({
       url: `${siteUrl}/routes/${route.slug}`,
       lastModified,

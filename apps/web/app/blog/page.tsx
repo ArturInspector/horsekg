@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { blogPosts } from "../../content/blog";
-import { siteCopy } from "../../content/landing";
+import { commercialPages, siteCopy } from "../../content/landing";
 
 export const metadata: Metadata = {
   title: "Блог о конных прогулках в Бишкеке | HorseSharing",
@@ -112,6 +112,31 @@ export default function BlogPage() {
                 </a>
               </div>
             </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="v2Section commercialBand" aria-labelledby="blog-commercial-title">
+        <div className="container v2SectionHeader">
+          <div>
+            <p className="v2Eyebrow">После чтения</p>
+            <h2 id="blog-commercial-title">Перейти к выбору прогулки</h2>
+          </div>
+          <p>
+            Блог отвечает на вопросы перед поездкой. Для записи лучше открыть
+            коммерческую страницу: там цены, маршруты, условия и Telegram CTA.
+          </p>
+        </div>
+        <div className="container seoCardGrid">
+          {commercialPages.map((page) => (
+            <a className="seoCard" href={page.path} key={page.slug}>
+              <span>{page.h1}</span>
+              <p>{page.description}</p>
+              <b>
+                Открыть
+                <ArrowRight size={15} />
+              </b>
+            </a>
           ))}
         </div>
       </section>
