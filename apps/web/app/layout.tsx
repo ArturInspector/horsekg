@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { siteCopy } from "../content/landing";
 import { AnalyticsTracker } from "./analytics-tracker";
 import "./globals.css";
+import "./admin.css";
+import "./marketing.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteCopy.siteUrl),
