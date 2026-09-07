@@ -2223,6 +2223,7 @@ h3 {
 
   .bookingPanel,
   .commercialBookingCard {
+    margin: 0;
     position: static;
   }
 
