@@ -350,7 +350,7 @@ export const siteCopy = {
     cta: "Открыть блог"
   },
   footer: {
-    text: "HorseSharing / Ride.kg - конные прогулки рядом с Бишкеком с заявкой через Telegram.",
+    text: "HorseSharing - конные прогулки рядом с Бишкеком с заявкой через Telegram.",
     links: [
       { href: "/routes", label: "Маршруты" },
       { href: "/prices", label: "Цены" },
