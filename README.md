@@ -33,7 +33,7 @@ npm run dev -- --port 3001
 npm run build
 ```
 
-Set `NEXT_PUBLIC_SITE_URL=https://ride.kg` before web deployment so metadata, robots and sitemap point at the public domain.
+Set `NEXT_PUBLIC_SITE_URL=https://web-production-c05e3.up.railway.app` before web deployment until the custom domain is attached.
 Set `NEXT_PUBLIC_API_URL` to the production API URL so landing analytics events
 are written to the backend.
 
