@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://ride.kg";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://web-production-c05e3.up.railway.app";
 
 export default function robots(): MetadataRoute.Robots {
   return {
