@@ -9,7 +9,7 @@ const commercialPages = [
   "/blog",
 ];
 
-test("desktop landing keeps booking UI in the first viewport", async ({
+test("desktop landing keeps route choices in the first viewport", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "Desktop layout guard.");
@@ -17,7 +17,8 @@ test("desktop landing keeps booking UI in the first viewport", async ({
   await page.goto("/");
 
   const hero = page.locator(".v2Hero");
-  const picker = hero.getByLabel("Быстрый выбор");
+  const routeChoices = hero.getByLabel("Популярные маршруты");
+  const heroImage = hero.locator(".outdoorHeroMedia img");
 
   await expect(
     page.getByRole("heading", {
@@ -25,42 +26,50 @@ test("desktop landing keeps booking UI in the first viewport", async ({
       name: "Конные прогулки в Бишкеке",
     }),
   ).toBeVisible();
-  await expect(picker).toBeVisible();
+  await expect(routeChoices).toBeVisible();
+  await expect(routeChoices.locator(".heroRouteChoice")).toHaveCount(3);
+  await expect(heroImage).toBeVisible();
+  await expect(hero.locator(".bookingPanel")).toHaveCount(0);
 
   const metrics = await page.evaluate(() => {
     const heroBox = document.querySelector(".v2Hero")?.getBoundingClientRect();
     const routesBox = document.querySelector("#routes")?.getBoundingClientRect();
+    const mediaBox = document
+      .querySelector(".outdoorHeroMedia")
+      ?.getBoundingClientRect();
 
     return {
       heroHeight: heroBox?.height ?? 0,
+      mediaHeight: mediaBox?.height ?? 0,
       routesTop: routesBox?.top ?? 0,
     };
   });
 
+  expect(metrics.mediaHeight).toBeGreaterThan(520);
   expect(metrics.heroHeight).toBeLessThan(760);
   expect(metrics.routesTop).toBeLessThan(840);
 });
 
-test("mobile landing puts booking before gallery", async ({ page }, testInfo) => {
+test("mobile landing puts photo before route choices", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "Mobile layout guard.");
 
   await page.goto("/");
 
   const order = await page.evaluate(() => {
-    const pickerBox = document
-      .querySelector(".bookingPanel")
+    const routeChoicesBox = document
+      .querySelector(".heroRouteList")
       ?.getBoundingClientRect();
-    const galleryBox = document
-      .querySelector(".v2Gallery")
+    const mediaBox = document
+      .querySelector(".outdoorHeroMedia")
       ?.getBoundingClientRect();
 
     return {
-      galleryTop: galleryBox?.top ?? 0,
-      pickerTop: pickerBox?.top ?? 0,
+      mediaTop: mediaBox?.top ?? 0,
+      routeChoicesTop: routeChoicesBox?.top ?? 0,
     };
   });
 
-  expect(order.pickerTop).toBeLessThan(order.galleryTop);
+  expect(order.mediaTop).toBeLessThan(order.routeChoicesTop);
   await expect(page.locator(".mobileBookingBar")).toBeVisible();
   await expect(page.locator(".mobileBookingBar")).toContainText("Проверить");
 });
@@ -70,7 +79,7 @@ test("mobile booking picker stores selected Telegram intent", async ({
 }) => {
   await page.goto("/");
 
-  const picker = page.locator(".v2Hero .bookingPanel");
+  const picker = page.locator("#booking .bookingPanel");
 
   await picker.getByRole("button", { name: "Аламедин" }).click();
   await picker.getByRole("button", { name: "3-6" }).click();

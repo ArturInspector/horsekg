@@ -22,6 +22,37 @@ import { createRouteIntentMetadata, metadataJson } from "../lib/booking-intent";
 
 const conditionIcons = [ShieldCheck, UsersRound, MessageCircle, ImageIcon];
 
+function HeroRouteChoice({ route }: { route: (typeof siteCopy.routes)[number] }) {
+  return (
+    <article className="heroRouteChoice">
+      <a className="heroRouteThumb" href={`/routes/${route.slug}`}>
+        <img src={route.image} alt={route.alt} />
+      </a>
+      <div>
+        <p>{route.area}</p>
+        <h3>
+          <a href={`/routes/${route.slug}`}>{route.shortTitle}</a>
+        </h3>
+        <span>
+          {route.duration} · {route.level} · {route.price}
+        </span>
+      </div>
+      <a
+        className="heroRouteAction"
+        href={siteCopy.botUrls.routes}
+        data-analytics-source={siteCopy.routesSection.source}
+        data-analytics-target={`${route.analyticsTarget}_hero_choice`}
+        data-analytics-metadata={metadataJson(
+          createRouteIntentMetadata(route, "home_hero_route_choice")
+        )}
+        aria-label={`Выбрать ${route.shortTitle}`}
+      >
+        <ArrowRight size={18} />
+      </a>
+    </article>
+  );
+}
+
 function Header() {
   return (
     <header className="v2Header">
@@ -77,7 +108,7 @@ function Footer() {
 }
 
 export default function Home() {
-  const [mainImage, ...secondaryImages] = siteCopy.hero.gallery;
+  const heroRoute = siteCopy.routes[0];
 
   return (
     <>
@@ -89,52 +120,28 @@ export default function Home() {
         <Header />
 
         <section className="v2Hero" aria-labelledby="hero-title">
-          <div className="container v2HeroGrid">
-            <div className="v2HeroCopy">
+          <div className="container outdoorHeroGrid">
+            <div className="outdoorHeroCopy">
               <p className="v2Eyebrow">{siteCopy.hero.eyebrow}</p>
               <h1 id="hero-title">{siteCopy.hero.title}</h1>
               <p className="v2Lead">{siteCopy.hero.text}</p>
-              <dl className="heroFactGrid" aria-label={siteCopy.hero.factsLabel}>
-                {siteCopy.hero.facts.map((item) => (
-                  <div key={item.value}>
-                    <dt>{item.value}</dt>
-                    <dd>{item.label}</dd>
-                  </div>
-                ))}
-              </dl>
-              <div className="v2HeroActions">
-                <a
-                  className="v2Button primary"
-                  href={siteCopy.botUrls.home}
-                  data-analytics-source={siteCopy.hero.primarySource}
-                  data-analytics-target="hero_primary"
-                >
-                  {siteCopy.hero.primaryCta}
-                  <ArrowRight size={18} />
-                </a>
-                <a className="v2Button quiet" href="/routes">
-                  {siteCopy.hero.secondaryCta}
-                </a>
-              </div>
-              <p className="heroNote">{siteCopy.hero.note}</p>
             </div>
 
-            <div className="v2Gallery" aria-label="Фото конных прогулок">
-              <img className="v2GalleryMain" src={mainImage.src} alt={mainImage.alt} />
-              <div className="v2GallerySide">
-                {secondaryImages.map((image) => (
-                  <img src={image.src} alt={image.alt} key={image.src} />
-                ))}
-              </div>
+            <div className="heroRouteList" aria-label="Популярные маршруты">
+              {siteCopy.routes.map((route) => (
+                <HeroRouteChoice route={route} key={route.slug} />
+              ))}
             </div>
 
-            <BookingIntentPicker
-              analyticsSource={siteCopy.bookingPanel.source}
-              analyticsTarget="quick_booking"
-              ctaLabel={siteCopy.bookingPanel.cta}
-              href={siteCopy.botUrls.booking}
-              surface="home_hero_picker"
-            />
+            <figure className="outdoorHeroMedia">
+              <img src={heroRoute.image} alt={heroRoute.alt} />
+              <figcaption>
+                <span>{heroRoute.area}</span>
+                <strong>
+                  {heroRoute.duration} · {heroRoute.price}
+                </strong>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
@@ -219,6 +226,27 @@ export default function Home() {
             ))}
           </div>
           <p className="container sectionNote">{siteCopy.routesSection.note}</p>
+        </section>
+
+        <section
+          className="v2Section bookingSection"
+          id="booking"
+          aria-labelledby="booking-title"
+        >
+          <div className="container bookingSectionGrid">
+            <div>
+              <p className="v2Eyebrow">Запрос слота</p>
+              <h2 id="booking-title">Уточнить дату и компанию</h2>
+              <p className="v2BodyText">{siteCopy.hero.note}</p>
+            </div>
+            <BookingIntentPicker
+              analyticsSource={siteCopy.bookingPanel.source}
+              analyticsTarget="quick_booking"
+              ctaLabel={siteCopy.bookingPanel.cta}
+              href={siteCopy.botUrls.booking}
+              surface="home_booking_section"
+            />
+          </div>
         </section>
 
         <section className="v2Section mutedBand" id="how" aria-labelledby="how-title">
