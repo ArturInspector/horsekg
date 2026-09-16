@@ -5,6 +5,7 @@ import "./globals.css";
 import "./site.css";
 import "./booking.css";
 import "./admin.css";
+import "leaflet/dist/leaflet.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteCopy.siteUrl),

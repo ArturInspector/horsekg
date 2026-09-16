@@ -612,6 +612,350 @@
   color: var(--booking-green-dark);
 }
 
+.mapSection {
+  width: min(1160px, calc(100% - 48px));
+  margin: 48px auto 0;
+  border-top: 1px solid var(--booking-line);
+  padding-top: 72px;
+}
+
+.mapSectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.mapSectionHeading > div {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.mapSectionHeading > div > span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--booking-lime);
+  color: #263820;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.mapSectionHeading p {
+  margin: 0;
+  color: var(--booking-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.mapSectionHeading > p {
+  max-width: 420px;
+  text-align: right;
+}
+
+.mapSectionHeading > div p {
+  margin-bottom: 4px;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mapSectionHeading h2 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.rideMapLayout {
+  display: grid;
+  grid-template-columns: minmax(290px, 0.72fr) minmax(0, 1.55fr);
+  gap: 16px;
+  border-radius: 16px;
+  background: #eff3ee;
+  padding: 12px;
+}
+
+.mapLocationList {
+  display: grid;
+  align-content: center;
+  gap: 9px;
+}
+
+.mapLocationList article {
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.mapLocationList article.active {
+  border-color: rgba(37, 91, 67, 0.32);
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(27, 53, 38, 0.09);
+}
+
+.mapLocationMain {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 64px minmax(0, 1fr) 34px;
+  gap: 12px;
+  align-items: center;
+  border: 0;
+  background: none;
+  padding: 12px;
+  text-align: left;
+}
+
+.mapLocationMain > img {
+  width: 64px;
+  height: 72px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.mapLocationMain > div {
+  min-width: 0;
+}
+
+.mapLocationMain span,
+.mapLocationMain p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--booking-muted);
+}
+
+.mapLocationMain span {
+  margin-bottom: 5px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.mapLocationMain h3 {
+  margin: 0 0 7px;
+  font-size: 19px;
+  letter-spacing: -0.03em;
+}
+
+.mapLocationMain p {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.mapLocationMain > i {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--booking-sage);
+  font-size: 17px;
+  font-style: normal;
+}
+
+.mapLocationActions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  border-top: 1px solid #e5eae5;
+  padding: 9px 12px 11px;
+}
+
+.mapLocationActions button,
+.mapLocationActions a {
+  display: inline-flex;
+  min-height: 35px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.mapLocationActions button {
+  border: 0;
+  background: var(--booking-green-dark);
+  color: #fff;
+}
+
+.mapLocationActions a {
+  border: 1px solid var(--booking-line);
+  background: #fff;
+  color: var(--booking-green-dark);
+  padding: 0 11px;
+}
+
+.rideMapFrame {
+  position: relative;
+  min-width: 0;
+  min-height: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #dce4d9;
+}
+
+.rideMap,
+.mapLoading {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+.mapLoading {
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #e9eee7;
+  color: var(--booking-muted);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.mapLegend {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(28, 52, 39, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 7px 10px 7px 7px;
+  color: var(--booking-green-dark);
+  font-size: 10px;
+  font-weight: 850;
+  box-shadow: 0 5px 18px rgba(28, 50, 37, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.mapLegend span {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--booking-lime);
+}
+
+.horseMapMarker {
+  display: grid !important;
+  place-items: center;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.horseMapMarker span {
+  position: relative;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 3px solid #fff;
+  border-radius: 50% 50% 50% 10%;
+  transform: rotate(-45deg);
+  background: var(--booking-green-dark);
+  font-size: 20px;
+  box-shadow: 0 8px 18px rgba(20, 45, 30, 0.28);
+}
+
+.horseMapMarker span::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  content: "";
+}
+
+.horseMapMarker span {
+  line-height: 1;
+}
+
+.horseMapMarker b {
+  display: block;
+  transform: rotate(45deg);
+  font-weight: 400;
+}
+
+.horseMapPopupShell .leaflet-popup-content-wrapper {
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 16px 40px rgba(17, 36, 25, 0.2);
+}
+
+.horseMapPopupShell .leaflet-popup-content {
+  width: 230px !important;
+  margin: 0;
+}
+
+.horseMapPopup {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.horseMapPopup > img {
+  width: 100%;
+  height: 104px;
+  object-fit: cover;
+}
+
+.horseMapPopupBody {
+  display: grid;
+  padding: 12px;
+}
+
+.horseMapPopupBody span {
+  color: var(--booking-muted);
+  font-size: 9px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.horseMapPopupBody strong {
+  margin-top: 4px;
+  color: var(--booking-ink);
+  font-size: 17px;
+}
+
+.horseMapPopupBody small {
+  margin-top: 5px;
+  color: var(--booking-muted);
+  font-size: 10px;
+}
+
+.horseMapPopupBody a {
+  margin-top: 10px;
+  border-radius: 7px;
+  background: var(--booking-green-dark);
+  padding: 9px 10px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 850;
+  text-align: center;
+}
+
+.rideMap .leaflet-control-zoom a {
+  border-color: #e2e7e1;
+  color: var(--booking-green-dark);
+}
+
+.rideMap .leaflet-control-attribution {
+  color: #526059;
+  font-size: 8px;
+}
+
 .confidenceStrip {
   display: grid;
   width: min(1160px, calc(100% - 48px));
@@ -1240,6 +1584,10 @@
     height: 100%;
     aspect-ratio: auto;
   }
+
+  .rideMapLayout {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
 }
 
 @media (max-width: 680px) {
@@ -1420,6 +1768,75 @@
     width: calc(100% - 28px);
     grid-template-columns: 1fr;
     margin-top: 32px;
+  }
+
+  .mapSection {
+    width: calc(100% - 28px);
+    margin-top: 32px;
+    padding-top: 52px;
+  }
+
+  .mapSectionHeading {
+    display: grid;
+    gap: 13px;
+    margin-bottom: 17px;
+  }
+
+  .mapSectionHeading > p {
+    padding-left: 44px;
+    font-size: 11px;
+    text-align: left;
+  }
+
+  .mapSectionHeading h2 {
+    font-size: 27px;
+  }
+
+  .rideMapLayout {
+    display: flex;
+    flex-direction: column-reverse;
+    border-radius: 14px;
+    padding: 8px;
+  }
+
+  .rideMapFrame,
+  .rideMap,
+  .mapLoading {
+    min-height: 360px;
+  }
+
+  .mapLocationList {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin: 0 -8px -8px;
+    padding: 2px 8px 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .mapLocationList::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mapLocationList article {
+    width: 88%;
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+  }
+
+  .mapLocationMain {
+    grid-template-columns: 58px minmax(0, 1fr) 34px;
+  }
+
+  .mapLocationMain > img {
+    width: 58px;
+    height: 64px;
+  }
+
+  .mapLegend {
+    top: 10px;
+    left: 10px;
   }
 
   .confidenceStrip > div {

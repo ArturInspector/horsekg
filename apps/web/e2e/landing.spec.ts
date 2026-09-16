@@ -26,6 +26,8 @@ test("desktop home is a booking product with a complete selection flow", async (
   await expect(page.locator(".searchPanel")).toBeVisible();
   await expect(page.locator(".rideResult")).toHaveCount(3);
   await expect(page.locator(".timeChips button")).toHaveCount(5);
+  await expect(page.locator(".horseMapMarker")).toHaveCount(2);
+  await expect(page.locator(".mapLocationActions a[href*='2gis.kg']")).toHaveCount(2);
 
   await page.locator(".timeChips button").first().click();
   await expect(page.locator(".selectionBar")).toBeVisible();
@@ -60,6 +62,7 @@ test("mobile home keeps selection in one continuous scroll", async ({
   await expect(page.locator(".bookingHero > img")).toBeVisible();
   await expect(page.locator(".rideResult")).toHaveCount(3);
   await expect(page.locator(".searchPanel")).toBeVisible();
+  await expect(page.locator(".horseMapMarker")).toHaveCount(2);
 
   const order = await page.evaluate(() => {
     const hero = document.querySelector(".bookingHero")?.getBoundingClientRect();
@@ -80,6 +83,21 @@ test("mobile home keeps selection in one continuous scroll", async ({
   await expect(page.locator(".selectionBar")).toBeVisible();
   await page.locator(".selectionBar > button").click();
   await expect(page.locator(".checkoutSheet")).toBeVisible();
+});
+
+test("map location card filters matching rides", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.locator(".horseMapMarker")).toHaveCount(2);
+  await page
+    .locator(".mapLocationList article")
+    .filter({ hasText: "Аламедин" })
+    .getByRole("button", { name: /Смотреть прогулки/ })
+    .click();
+
+  await expect(page.locator(".locationControl select")).toHaveValue("Аламедин");
+  await expect(page.locator(".rideResult")).toHaveCount(1);
+  await expect(page.locator(".rideResult")).toContainText("Аламедин");
 });
 
 for (const path of publicPages) {

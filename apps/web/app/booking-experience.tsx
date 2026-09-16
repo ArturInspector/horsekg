@@ -17,8 +17,14 @@ import {
   UsersRound,
   X
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import { routes, telegramBotUrl, type LandingRoute } from "../content/landing";
+
+const RideMap = dynamic(() => import("./ride-map"), {
+  ssr: false,
+  loading: () => <div className="mapLoading">Загружаем карту…</div>
+});
 
 type DateChoice = "today" | "tomorrow" | "custom";
 type LocationChoice = "all" | "Чункурчак" | "Аламедин";
@@ -481,6 +487,14 @@ export default function BookingExperience() {
           ))}
         </div>
       </section>
+
+      <RideMap
+        onChooseLocation={(nextLocation) => {
+          setLocation(nextLocation);
+          setSelectedRoute(undefined);
+          setSelectedTime("");
+        }}
+      />
 
       <section className="confidenceStrip">
         <div><strong>Не катались раньше?</strong><span>Инструктор объяснит всё перед стартом и будет рядом на маршруте.</span></div>
