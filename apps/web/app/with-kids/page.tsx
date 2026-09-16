@@ -1,7 +1,7 @@
-import { CommercialPageView, commercialMetadata } from "../commercial-page";
+import { GuidePageView, guideMetadata } from "../guide-page";
 
-export const metadata = commercialMetadata("with-kids");
+export const metadata = guideMetadata("with-kids");
 
 export default function WithKidsPage() {
-  return <CommercialPageView slug="with-kids" />;
+  return <GuidePageView slug="with-kids" />;
 }

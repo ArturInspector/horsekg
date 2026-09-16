@@ -1,7 +1,7 @@
-import { CommercialPageView, commercialMetadata } from "../commercial-page";
+import { GuidePageView, guideMetadata } from "../guide-page";
 
-export const metadata = commercialMetadata("for-beginners");
+export const metadata = guideMetadata("for-beginners");
 
 export default function ForBeginnersPage() {
-  return <CommercialPageView slug="for-beginners" />;
+  return <GuidePageView slug="for-beginners" />;
 }

@@ -27,6 +27,33 @@ function createPublicCode() {
 export class BookingService {
   constructor(private readonly db: DbClient) {}
 
+  async updateBookingStatus(
+    publicCode: string,
+    status: "CONFIRMED" | "CANCELLED"
+  ) {
+    const booking = await this.db.booking.findUnique({
+      where: { publicCode },
+      select: { id: true }
+    });
+
+    if (!booking) {
+      throw new DomainError("BOOKING_NOT_FOUND", "Бронь не найдена", 404);
+    }
+
+    return this.db.booking.update({
+      where: { publicCode },
+      data: { status },
+      include: {
+        customer: true,
+        horse: true,
+        location: true,
+        payment: true,
+        ridePackage: true,
+        slot: true
+      }
+    });
+  }
+
   getBookingByPublicCode(publicCode: string) {
     return this.db.booking.findUnique({
       where: { publicCode },

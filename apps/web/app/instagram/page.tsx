@@ -1,7 +1,7 @@
-import { CommercialPageView, commercialMetadata } from "../commercial-page";
+import { GuidePageView, guideMetadata } from "../guide-page";
 
-export const metadata = commercialMetadata("instagram");
+export const metadata = guideMetadata("instagram");
 
 export default function InstagramPage() {
-  return <CommercialPageView slug="instagram" />;
+  return <GuidePageView slug="instagram" />;
 }

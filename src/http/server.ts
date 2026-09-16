@@ -1,6 +1,6 @@
 import cors from "@fastify/cors";
 import Fastify from "fastify";
-import type { Bot } from "grammy";
+import { InlineKeyboard, type Bot } from "grammy";
 import type { Update } from "grammy/types";
 import { z } from "zod";
 import type { AppConfig } from "../config.js";
@@ -103,6 +103,28 @@ function headerString(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
+function managerBookingText(booking: Awaited<ReturnType<BookingService["createBooking"]>>) {
+  return [
+    "Новая заявка с сайта",
+    "",
+    `Бронь: ${booking.publicCode}`,
+    `Прогулка: ${booking.ridePackage.title}`,
+    `Локация: ${booking.location.title}`,
+    `Дата: ${new Intl.DateTimeFormat("ru-RU", {
+      dateStyle: "medium",
+      timeStyle: "short",
+      timeZone: "Asia/Bishkek"
+    }).format(booking.slot.startsAt)}`,
+    `Участников: ${booking.participants}`,
+    `Сумма: ${booking.totalAmountKgs.toLocaleString("ru-RU")} сом`,
+    `Клиент: ${booking.contactName ?? "имя не указано"}`,
+    `Телефон: ${booking.contactPhone}`,
+    booking.notes ? `Комментарий: ${booking.notes}` : undefined
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
 export async function buildServer({ bot, config, db }: BuildServerDeps) {
   const app = Fastify({
     logger: true
@@ -171,6 +193,24 @@ export async function buildServer({ bot, config, db }: BuildServerDeps) {
   app.post("/api/bookings", async (request, reply) => {
     const input = createBookingSchema.parse(request.body);
     const booking = await bookings.createBooking(input);
+
+    if (bot && config.managerChatId) {
+      const keyboard = new InlineKeyboard()
+        .text("✅ Подтвердить", `manager:confirm:${booking.publicCode}`)
+        .text("🕓 Другое время", `manager:alternate:${booking.publicCode}`)
+        .row()
+        .text("✕ Отказать", `manager:cancel:${booking.publicCode}`)
+        .url("Позвонить", `tel:${booking.contactPhone.replace(/[^+\d]/g, "")}`);
+
+      bot.api
+        .sendMessage(config.managerChatId, managerBookingText(booking), {
+          reply_markup: keyboard
+        })
+        .catch((error: unknown) => {
+          app.log.error(error, "Failed to notify manager about web booking");
+        });
+    }
+
     reply.status(201);
     return booking;
   });

@@ -793,6 +793,36 @@ export function createBot({ config, db }: CreateBotDeps) {
     await sendPaymentOrManual(ctx, ctx.match[1]);
   });
 
+  bot.callbackQuery(/^manager:(confirm|cancel|alternate):(.+)$/, async (ctx) => {
+    if (!isManagerChat(ctx)) {
+      await ctx.answerCallbackQuery({ text: "Действие доступно только менеджеру." });
+      return;
+    }
+
+    const action = ctx.match[1];
+    const publicCode = ctx.match[2];
+
+    if (action === "alternate") {
+      const booking = await bookings.getBookingByPublicCode(publicCode);
+      await ctx.answerCallbackQuery({ text: "Свяжитесь с клиентом и предложите другое время." });
+      if (booking) {
+        await ctx.reply(
+          `Предложите другое время для ${publicCode}. Телефон клиента: ${booking.contactPhone}`
+        );
+      }
+      return;
+    }
+
+    const status = action === "confirm" ? "CONFIRMED" : "CANCELLED";
+    const booking = await bookings.updateBookingStatus(publicCode, status);
+    await ctx.answerCallbackQuery({
+      text: action === "confirm" ? "Бронь подтверждена" : "Заявка отклонена"
+    });
+    await ctx.editMessageText(
+      `${bookingSummary(booking)}\n\n${action === "confirm" ? "✅ Подтверждено менеджером" : "✕ Отклонено менеджером"}`
+    );
+  });
+
   bot.on("pre_checkout_query", async (ctx) => {
     await ctx.answerPreCheckoutQuery(true);
   });

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "../content/blog";
-import { commercialPages, siteCopy } from "../content/landing";
+import { guidePages, siteCopy } from "../content/landing";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://web-production-c05e3.up.railway.app";
@@ -21,11 +21,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8
     },
-    ...commercialPages.map((page) => ({
+    {
+      url: `${siteUrl}/routes`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.95
+    },
+    ...guidePages.map((page) => ({
       url: `${siteUrl}${page.path}`,
       lastModified,
       changeFrequency: "weekly" as const,
-      priority: page.slug === "routes" ? 0.95 : 0.85
+      priority: 0.85
     })),
     ...siteCopy.routes.map((route) => ({
       url: `${siteUrl}/routes/${route.slug}`,

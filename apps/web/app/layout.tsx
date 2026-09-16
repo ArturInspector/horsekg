@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { siteCopy } from "../content/landing";
 import { AnalyticsTracker } from "./analytics-tracker";
 import "./globals.css";
+import "./site.css";
+import "./booking.css";
 import "./admin.css";
-import "./marketing.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteCopy.siteUrl),
@@ -19,10 +20,10 @@ export const metadata: Metadata = {
     siteName: siteCopy.metadata.siteName,
     images: [
       {
-        url: siteCopy.hero.gallery[0].src,
-        width: 1080,
-        height: 808,
-        alt: siteCopy.routes[0].alt
+        url: siteCopy.hero.image,
+        width: 1400,
+        height: 790,
+        alt: siteCopy.hero.imageAlt
       }
     ],
     locale: "ru_KG",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteCopy.metadata.openGraphTitle,
     description: siteCopy.metadata.openGraphDescription,
-    images: [siteCopy.hero.gallery[0].src]
+    images: [siteCopy.hero.image]
   }
 };
 

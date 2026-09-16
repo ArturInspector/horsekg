@@ -1,0 +1,943 @@
+.sitePage {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.sitePage h1,
+.sitePage h2,
+.sitePage h3,
+.sitePage p {
+  margin-bottom: 0;
+}
+
+.sitePage h1 {
+  font-size: 68px;
+  line-height: 0.96;
+}
+
+.sitePage h2 {
+  font-size: 42px;
+  line-height: 1.05;
+}
+
+.sitePage h3 {
+  font-size: 22px;
+  line-height: 1.14;
+}
+
+.sitePage p {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.siteHeader {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  width: min(1220px, calc(100% - 40px));
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 auto;
+  background: rgba(247, 248, 246, 0.9);
+  backdrop-filter: blur(18px);
+}
+
+.siteBrand {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.siteNav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-weight: 760;
+}
+
+.siteNav span {
+  color: var(--muted);
+}
+
+.telegramHeaderLink,
+.footerTelegram,
+.inlineLink,
+.mapLink,
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--green-dark);
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.telegramHeaderLink {
+  min-height: 40px;
+}
+
+.primaryAction,
+.secondaryAction,
+.textAction {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 6px;
+  padding: 13px 18px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.primaryAction {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.secondaryAction {
+  border: 1px solid var(--line-strong);
+  background: var(--white);
+  color: var(--ink);
+}
+
+.textAction {
+  padding-right: 0;
+  padding-left: 0;
+  color: var(--green-dark);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.siteEyebrow {
+  margin-bottom: 13px;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.homeHero {
+  padding: 20px 0 36px;
+}
+
+.homeHeroInner {
+  display: grid;
+  min-height: clamp(460px, calc(100svh - 220px), 680px);
+  grid-template-columns: minmax(0, 0.78fr) minmax(440px, 0.88fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.homeHeroCopy {
+  max-width: 640px;
+}
+
+.homeHeroCopy h1 span {
+  display: block;
+}
+
+.homeHeroCopy > p:not(.siteEyebrow) {
+  max-width: 560px;
+  margin-top: 22px;
+  color: var(--ink-soft);
+  font-size: 22px;
+  line-height: 1.42;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.heroFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin: 30px 0 0;
+  padding: 0;
+  color: var(--ink-soft);
+  list-style: none;
+}
+
+.heroFacts li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.heroFacts li::before {
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  content: "";
+}
+
+.homeHeroPhoto {
+  height: clamp(420px, calc(100svh - 200px), 660px);
+  min-height: 420px;
+  margin: 0;
+  overflow: hidden;
+  background: var(--paper-warm);
+}
+
+.homeHeroPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.siteSection {
+  padding: 76px 0;
+}
+
+.sectionIntro {
+  display: grid;
+  max-width: 760px;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.routesSection {
+  padding-top: 46px;
+}
+
+.placeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.placeGrid.twoColumns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.placeCard,
+.blogCard {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid rgba(24, 23, 19, 0.1);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.placeCardImage,
+.blogCardImage {
+  display: block;
+  overflow: hidden;
+  background: var(--paper-warm);
+}
+
+.placeCardImage img,
+.blogCardImage img {
+  width: 100%;
+  aspect-ratio: 1.22;
+  object-fit: cover;
+  transition: transform 180ms ease;
+}
+
+.placeCard:hover .placeCardImage img,
+.blogCard:hover .blogCardImage img {
+  transform: scale(1.025);
+}
+
+.placeCardBody,
+.blogCard > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 18px;
+}
+
+.placeLocation,
+.blogCard span {
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.placeCard h3,
+.blogCard h3 {
+  margin-bottom: 8px;
+}
+
+.placeCardBody > p:not(.placeLocation),
+.blogCard p {
+  margin-bottom: 16px;
+  font-size: 15px;
+  line-height: 1.48;
+}
+
+.placeMeta,
+.routeFacts,
+.articleMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.placeMeta {
+  margin-top: auto;
+  margin-bottom: 18px;
+}
+
+.placeMeta span,
+.routeFacts li,
+.articleMeta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--green-dark);
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.placeCardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.placeCardBottom strong {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.14;
+}
+
+.beginnerSection {
+  background: #edf3ef;
+}
+
+.beginnerGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(320px, 0.62fr);
+  gap: 54px;
+  align-items: center;
+}
+
+.beginnerGrid > img {
+  width: 100%;
+  aspect-ratio: 1.16;
+  object-fit: cover;
+}
+
+.beginnerGrid h2 {
+  margin-bottom: 18px;
+}
+
+.plainSteps {
+  display: grid;
+  gap: 18px;
+  margin: 28px 0 0;
+  padding: 0;
+  counter-reset: beginner;
+  list-style: none;
+}
+
+.plainSteps li {
+  position: relative;
+  padding-left: 46px;
+  color: var(--ink-soft);
+  font-size: 19px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.plainSteps li::before {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  color: var(--accent);
+  content: counter(beginner, decimal-leading-zero);
+  counter-increment: beginner;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.gallerySection {
+  padding-bottom: 38px;
+}
+
+.galleryGrid,
+.detailGallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1.38fr) minmax(260px, 0.62fr);
+  gap: 16px;
+}
+
+.galleryGrid img,
+.detailGallery img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+}
+
+.galleryMain,
+.detailGalleryMain {
+  grid-row: span 2;
+  min-height: 520px;
+}
+
+.howSection {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.howGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.44fr) minmax(0, 0.88fr);
+  gap: 58px;
+  align-items: start;
+}
+
+.howGrid h2,
+.howSteps h3 {
+  color: var(--white);
+}
+
+.howSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.howSteps article {
+  display: grid;
+  gap: 12px;
+}
+
+.howSteps span {
+  color: #f0b268;
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.howSteps p {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 15px;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.faqGrid article {
+  border-top: 1px solid var(--line-strong);
+  padding-top: 18px;
+}
+
+.faqGrid h3 {
+  margin-bottom: 9px;
+}
+
+.siteFooter {
+  background: #edf1f4;
+  padding: 38px 0;
+}
+
+.footerInner {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1fr) auto;
+  gap: 32px;
+  align-items: start;
+}
+
+.footerInner strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+.footerInner p {
+  font-size: 15px;
+}
+
+.footerInner nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.routesHero,
+.guideHero,
+.blogHero,
+.articleHero,
+.detailHero {
+  padding: 44px 0 34px;
+}
+
+.routesHeroInner,
+.guideHeroInner,
+.blogHeroInner,
+.articleHeroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(340px, 0.58fr);
+  gap: 50px;
+  align-items: center;
+}
+
+.routesHeroInner > div:first-child,
+.guideHeroInner > div:first-child,
+.blogHeroInner > div:first-child,
+.articleHeroInner > div:first-child,
+.detailHeroInner {
+  display: grid;
+  gap: 20px;
+}
+
+.routesHeroInner p,
+.guideHeroInner p,
+.blogHeroInner p,
+.articleHeroInner p,
+.detailHeroInner p {
+  max-width: 680px;
+  color: var(--ink-soft);
+  font-size: 20px;
+  line-height: 1.48;
+}
+
+.exploreStrip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.exploreStrip span {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--line-strong);
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.routeListSection {
+  padding-top: 36px;
+}
+
+.routeNoteSection {
+  padding-top: 22px;
+}
+
+.routeNote {
+  display: grid;
+  max-width: 780px;
+  gap: 18px;
+  border-top: 1px solid var(--line-strong);
+  padding-top: 28px;
+}
+
+.backLink {
+  justify-self: start;
+  color: var(--muted);
+}
+
+.detailHeroInner {
+  max-width: 900px;
+}
+
+.detailGallery {
+  margin-top: 10px;
+}
+
+.detailLayout,
+.guideLayout,
+.articleLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(300px, 0.34fr);
+  gap: 56px;
+  align-items: start;
+  padding-top: 58px;
+  padding-bottom: 72px;
+}
+
+.detailMain,
+.guideMain,
+.articleBody {
+  display: grid;
+  gap: 40px;
+}
+
+.detailTextBlock {
+  display: grid;
+  gap: 14px;
+}
+
+.detailColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 34px;
+}
+
+.detailBlock {
+  border-top: 1px solid var(--line-strong);
+  padding-top: 18px;
+}
+
+.detailBlock h2,
+.guideMain h2 {
+  margin-bottom: 16px;
+  font-size: 25px;
+}
+
+.checkList {
+  display: grid;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkList li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.checkList svg {
+  margin-top: 2px;
+  color: var(--green);
+}
+
+.detailAside,
+.guideAside,
+.articleAside {
+  position: sticky;
+  top: 92px;
+  display: grid;
+  gap: 16px;
+  border: 1px solid rgba(24, 23, 19, 0.12);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+}
+
+.detailAside > span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.detailAside strong,
+.articleAside strong {
+  color: var(--ink);
+  font-size: 28px;
+  line-height: 1.08;
+}
+
+.detailAside p,
+.guideAside p,
+.articleAside p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.mapLink {
+  justify-content: center;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.relatedSection {
+  padding-top: 42px;
+  border-top: 1px solid var(--line);
+}
+
+.guideHeroInner > img,
+.blogHeroInner > img,
+.articleHeroInner > img {
+  width: 100%;
+  aspect-ratio: 1.1;
+  object-fit: cover;
+}
+
+.guideBodySection {
+  padding-top: 42px;
+}
+
+.guideRouteList {
+  display: grid;
+  gap: 18px;
+}
+
+.guideRouteList .placeCard {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+}
+
+.guideRouteList .placeCardImage img {
+  height: 100%;
+  min-height: 210px;
+}
+
+.guideAside section {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.guideAside section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.guideAside h2 {
+  font-size: 22px;
+}
+
+.blogGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.articleMeta {
+  margin-top: 4px;
+}
+
+.articleBody {
+  color: var(--ink-soft);
+  font-size: 18px;
+  line-height: 1.68;
+}
+
+.articleBody section {
+  display: grid;
+  gap: 14px;
+}
+
+.articleBody h2 {
+  font-size: 32px;
+}
+
+.articleBody p {
+  font-size: 18px;
+}
+
+@media (max-width: 1120px) {
+  .sitePage h1 {
+    font-size: 58px;
+  }
+
+  .homeHeroInner,
+  .routesHeroInner,
+  .guideHeroInner,
+  .blogHeroInner,
+  .articleHeroInner {
+    gap: 34px;
+  }
+
+  .placeGrid,
+  .blogGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 840px) {
+  .siteHeader {
+    width: min(100% - 28px, 1220px);
+  }
+
+  .siteNav {
+    display: none;
+  }
+
+  .sitePage h1 {
+    font-size: 43px;
+    line-height: 1.02;
+  }
+
+  .sitePage h2 {
+    font-size: 32px;
+  }
+
+  .homeHero {
+    padding-top: 12px;
+  }
+
+  .homeHeroInner,
+  .beginnerGrid,
+  .howGrid,
+  .routesHeroInner,
+  .guideHeroInner,
+  .blogHeroInner,
+  .articleHeroInner,
+  .detailLayout,
+  .guideLayout,
+  .articleLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .homeHeroInner {
+    min-height: 0;
+    gap: 28px;
+  }
+
+  .homeHeroPhoto {
+    height: auto;
+    min-height: 0;
+  }
+
+  .homeHeroPhoto img {
+    aspect-ratio: 1.12;
+  }
+
+  .homeHeroCopy > p:not(.siteEyebrow),
+  .routesHeroInner p,
+  .guideHeroInner p,
+  .blogHeroInner p,
+  .articleHeroInner p,
+  .detailHeroInner p {
+    font-size: 18px;
+  }
+
+  .heroActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primaryAction,
+  .secondaryAction,
+  .textAction {
+    width: 100%;
+  }
+
+  .siteSection {
+    padding: 58px 0;
+  }
+
+  .routesSection,
+  .routeListSection {
+    padding-top: 36px;
+  }
+
+  .placeGrid,
+  .placeGrid.twoColumns,
+  .blogGrid,
+  .faqGrid,
+  .howSteps,
+  .detailColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryGrid,
+  .detailGallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .galleryMain,
+  .detailGalleryMain {
+    grid-column: 1 / -1;
+    min-height: 360px;
+  }
+
+  .detailAside,
+  .guideAside,
+  .articleAside {
+    position: static;
+  }
+
+  .guideRouteList .placeCard {
+    grid-template-columns: 1fr;
+  }
+
+  .guideRouteList .placeCardImage img {
+    min-height: 0;
+  }
+
+  .footerInner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .siteHeader {
+    min-height: 66px;
+  }
+
+  .siteBrand {
+    font-size: 18px;
+  }
+
+  .telegramHeaderLink {
+    font-size: 14px;
+  }
+
+  .sitePage h1 {
+    font-size: 38px;
+  }
+
+  .homeHeroCopy > p:not(.siteEyebrow) {
+    margin-top: 18px;
+  }
+
+  .heroFacts {
+    display: grid;
+    gap: 10px;
+  }
+
+  .placeCardBottom {
+    display: grid;
+  }
+
+  .galleryGrid,
+  .detailGallery,
+  .exploreStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryMain,
+  .detailGalleryMain {
+    min-height: 300px;
+  }
+
+  .detailLayout,
+  .guideLayout,
+  .articleLayout {
+    padding-top: 42px;
+    padding-bottom: 58px;
+  }
+}
